@@ -1,22 +1,11 @@
-'From Cuis7.5 [latest update: #7262] on 6 June 2025 at 4:04:52 pm'!
+'From Cuis7.5 [latest update: #7263] on 9 June 2025 at 11:32:02 am'!
 'Description '!
-!provides: 'Xml' 1 2!
+!provides: 'Xml' 1 3!
 !requires: 'Cuis-Base' 75 7262 nil!
-!requires: 'Regexp' 1 2 nil!
-!requires: 'Unicode' 1 1 nil!
+!requires: 'Unicode' 1 2 nil!
 SystemOrganization addCategory: #XML!
 SystemOrganization addCategory: #'XML-Tests'!
 
-
-!classDefinition: #XMLPullParser category: #XML!
-ReBaseParser subclass: #XMLPullParser
-	instanceVariableNames: 'contexts events error buffer'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLPullParser class' category: #XML!
-XMLPullParser class
-	instanceVariableNames: ''!
 
 !classDefinition: #XMLPullParserTests category: #'XML-Tests'!
 TestCase subclass: #XMLPullParserTests
@@ -46,6 +35,16 @@ TestCase subclass: #XMLTests
 	category: 'XML-Tests'!
 !classDefinition: 'XMLTests class' category: #'XML-Tests'!
 XMLTests class
+	instanceVariableNames: ''!
+
+!classDefinition: #XMLPullParser category: #XML!
+RecursiveDescentParser subclass: #XMLPullParser
+	instanceVariableNames: 'contexts events error buffer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'XML'!
+!classDefinition: 'XMLPullParser class' category: #XML!
+XMLPullParser class
 	instanceVariableNames: ''!
 
 !classDefinition: #StreamBuffer category: #XML!
@@ -308,6 +307,495 @@ XMLSerializer subclass: #XMLCanonicalSerializer
 XMLCanonicalSerializer class
 	instanceVariableNames: ''!
 
+
+!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:00'!
+testCharacterData
+
+	| parser event |
+	parser := XMLPullParser new.
+	parser writeStream nextPutAll: '<to>To'.
+	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
+	
+	event := parser nextEvent.
+	self assert: (event isKindOf: XMLCharacterDataEvent).
+	self
+		assert: event content
+		equals: 'To'.
+		
+	self assert: (parser nextEvent) isNil.
+	parser writeStream nextPutAll: 've'.
+	
+	event := parser nextEvent.
+	self assert: (event isKindOf: XMLCharacterDataEvent).
+	self
+		assert: event content
+		equals: 've'! !
+
+!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:08'!
+testEmptyInput
+
+	| parser |
+	parser := XMLPullParser new.
+	self assert: parser nextEvent isNil! !
+
+!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:12'!
+testFragmentInput
+
+	| parser |
+	parser := XMLPullParser new.
+	parser writeStream nextPutAll: '<?xml version="1.0" encoding="UTF-8"'.
+	self assert: parser nextEvent isNil.
+	parser writeStream nextPutAll: '?>'.
+	self assert: parser nextEvent notNil! !
+
+!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 07:19:48'!
+testNamespaces
+
+	| stanza parser event |
+	
+	stanza := '<?xml version="1.0"?><stream:stream from="juliet@im.example.com" to="im.example.com" version="1.0" xml:lang="en" xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams">'.
+	parser := XMLPullParser new.
+	parser writeStream nextPutAll: stanza.
+	parser nextEvent.  "Discard"
+
+	event := parser nextEvent.
+	self assert: (event isKindOf: XMLNamespaceStartEvent).
+	self assert: event prefix isNil.
+	self
+		assert: event uri
+		equals: 'jabber:client'.
+		
+	event := parser nextEvent.
+	self
+		assert: event prefix
+		equals: 'stream'.
+	self
+		assert: event uri
+		equals: 'http://etherx.jabber.org/streams'.
+		
+	event := parser nextEvent.
+	self assert: (event isKindOf: XMLElementStartEvent).
+	self
+		assert: event name uri
+		equals: 'http://etherx.jabber.org/streams'! !
+
+!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:23'!
+testStartElement
+
+	| parser |
+	parser := XMLPullParser new.
+	parser writeStream nextPutAll: '<note><to>Tove'.
+	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
+	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
+	self assert: (parser nextEvent isKindOf: XMLCharacterDataEvent)! !
+
+!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:04'!
+exampleString01
+	"https://www.w3schools.com/xml/note.xml"
+
+	^
+'<?xml version="1.0" encoding="UTF-8"?>
+<note>
+  <to>Tove</to>
+  <from>Jani</from>
+  <heading>Reminder</heading>
+  <body>Don''t forget me this weekend!!</body>
+</note>'! !
+
+!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:13'!
+exampleString02
+	"https://www.w3schools.com/xml/note.xml"
+
+	^
+'<?xml version="1.0" encoding="UTF-8"?>
+<note>
+  <to>Tove</to>
+  <from>Jani</from>
+  <heading>&#8222;Sicherheitshinweise&#x201C;</heading>
+  <body>Don''t forget me this weekend!!</body>
+</note>'! !
+
+!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:19'!
+exampleString03
+	"https://www.w3schools.com/xml/note.xml"
+
+	^
+'<?xml version="1.0" encoding="UTF-8"?>
+<breakfast_menu>
+   <food>
+       <name>Belgian Waffles</name>
+       <price>$5.95</price>
+       <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+       <calories>650</calories> </food>
+   <food>
+       <name>Strawberry Belgian Waffles</name>
+       <price>$7.95</price>
+       <description>Light Belgian waffles covered with strawberries and whipped cream</description>
+       <calories>900</calories> </food>
+   <food>
+       <name>Berry-Berry Belgian Waffles</name>
+       <price>$8.95</price>
+       <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
+       <calories>900</calories> </food>
+   <food>
+       <name>French Toast</name>
+       <price>$4.50</price>
+       <description>Thick slices made from our homemade sourdough bread</description>
+       <calories>600</calories> </food>
+   <food>
+       <name>Homestyle Breakfast</name>
+       <price>$6.95</price>
+       <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
+       <calories>950</calories> </food>
+</breakfast_menu>'! !
+
+!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:25'!
+exampleString04
+	"Exercise a bit Unicode."
+
+	^
+'<?xml version="1.0" encoding="UTF-8"?>
+<breakfast_menu>
+   <food>
+       <name>Belgian Waffles</name>
+       <price>$5.95</price>
+       <description>¿Querés agüita, ñandú?</description>
+       <calories>650</calories> </food>
+   <food>
+       <name>Strawberry Belgian Waffles</name>
+       <price>$7.95</price>
+       <description>Лорем ипсум долор сит амет, дебет салутанди меи еи.</description>
+       <calories>900</calories> </food>
+   <food>
+       <name>Berry-Berry Belgian Waffles</name>
+       <price>$8.95</price>
+       <description>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</description>
+       <calories>900</calories> </food>
+   <food>
+       <name>French Toast</name>
+       <price>$4.50</price>
+       <description>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</description>
+       <calories>600</calories> </food>
+   <food>
+       <name>Homestyle Breakfast</name>
+       <price>$6.95</price>
+       <description>¿Querés agüita, ñandú?</description>
+       <calories>950</calories> </food>
+</breakfast_menu>'! !
+
+!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:31'!
+exampleString05
+	"Exercise a bit Unicode."
+
+	^
+'<?xml version="1.0" encoding="UTF-8"?>
+<breakfast_menu>
+   <food>
+       <agüita>Belgian Waffles</agüita>
+       <ñandú>$5.95</ñandú>
+       <Лорем>¿Querés agüita, ñandú?</Лорем>
+       <ελιτ>650</ελιτ> </food>
+   <food>
+       <agüita>Strawberry Belgian Waffles</agüita>
+       <ñandú>$7.95</ñandú>
+       <Лорем>Лорем ипсум долор сит амет, дебет салутанди меи еи.</Лорем>
+       <ελιτ>900</ελιτ> </food>
+   <food>
+       <agüita>Berry-Berry Belgian Waffles</agüita>
+       <ñandú>$8.95</ñandú>
+       <Лорем>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</Лорем>
+       <ελιτ>900</ελιτ> </food>
+   <food>
+       <agüita>French Toast</agüita>
+       <ñandú>$4.50</ñandú>
+       <Лорем>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</Лорем>
+       <ελιτ>600</ελιτ> </food>
+   <food>
+       <agüita>Homestyle Breakfast</agüita>
+       <ñandú>$6.95</ñandú>
+       <Лорем>¿Querés agüita, ñandú?</Лорем>
+       <ελιτ>950</ελιτ> </food>
+</breakfast_menu>'! !
+
+!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:37'!
+exampleString06
+	"Exercise a bit Unicode."
+
+	^
+'<?xml version="1.0" encoding="UTF-8"?>
+<note>
+  <to>Tovep̂</to>
+  <from>Jani</from>
+  <heading>Reminder</heading>
+  <body>Don''t forget me this weekend!!</body>
+</note>'! !
+
+!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:54:33'!
+test01
+	| xmlDocument element subElements heading |
+	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString01 readStream."
+	self assert: xmlDocument version = '1.0'.
+	self assert: xmlDocument encoding = 'UTF-8' .
+	self assert: xmlDocument dtd isNil.
+	self assert: xmlDocument elements size = 1.
+	element := xmlDocument elements first.
+	self assert: element name = #note.
+	subElements := element elements.
+	self assert: subElements size = 4.
+	heading := subElements third.
+	self assert: heading name = #heading.
+	self assert: heading contents first string = 'Reminder'.
+	
+	self assert: xmlDocument printString = 
+'<?xml  version="1.0" encoding="UTF-8" ?>
+<note>
+<to>Tove</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Don''t forget me this weekend!!</body></note>'.! !
+
+!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:54:47'!
+test02
+	| xmlDocument element subElements heading |
+	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString02 readStream."
+	self assert: xmlDocument version = '1.0'.
+	self assert: xmlDocument encoding = 'UTF-8' .
+	self assert: xmlDocument dtd isNil.
+	self assert: xmlDocument elements size = 1.
+	element := xmlDocument elements first.
+	self assert: element name = #note.
+	subElements := element elements.
+	self assert: subElements size = 4.
+	heading := subElements third.
+	self assert: heading name = #heading.
+	self assert: heading contents first string = '„Sicherheitshinweise“'.
+	
+	self assert: xmlDocument printString = 
+'<?xml  version="1.0" encoding="UTF-8" ?>
+<note>
+<to>Tove</to>
+<from>Jani</from>
+<heading>„Sicherheitshinweise“</heading>
+<body>Don''t forget me this weekend!!</body></note>' ! !
+
+!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:55:04'!
+test03
+	| xmlDocument element subElements |
+	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString03 readStream."
+	self assert: xmlDocument version = '1.0'.
+	self assert: xmlDocument encoding = 'UTF-8' .
+	self assert: xmlDocument dtd isNil.
+	self assert: xmlDocument elements size = 1.
+	
+	element := xmlDocument elements first.
+	self assert: element name = #breakfast_menu.
+	subElements := element elements.	
+	self assert: subElements size = 5.
+
+	element := subElements third.
+	self assert: element name = #food.
+	subElements := element elements.
+	self assert: subElements size = 4.
+
+	element := subElements first.
+	self assert: element name = #name.
+	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
+
+	element := subElements second.
+	self assert: element name = #price.
+	self assert: element contents first string = '$8.95'.
+
+	element := subElements third.
+	self assert: element name = #description.
+	self assert: element contents first string =
+		'Light Belgian waffles covered with an assortment of fresh berries and whipped cream'.
+
+	element := subElements fourth.
+	self assert: element name = #calories.
+	self assert: element contents first string = '900'.
+	
+	self assert: xmlDocument printString =
+'<?xml  version="1.0" encoding="UTF-8" ?>
+<breakfast_menu>
+<food>
+<name>Belgian Waffles</name>
+<price>$5.95</price>
+<description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+<calories>650</calories></food>
+<food>
+<name>Strawberry Belgian Waffles</name>
+<price>$7.95</price>
+<description>Light Belgian waffles covered with strawberries and whipped cream</description>
+<calories>900</calories></food>
+<food>
+<name>Berry-Berry Belgian Waffles</name>
+<price>$8.95</price>
+<description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
+<calories>900</calories></food>
+<food>
+<name>French Toast</name>
+<price>$4.50</price>
+<description>Thick slices made from our homemade sourdough bread</description>
+<calories>600</calories></food>
+<food>
+<name>Homestyle Breakfast</name>
+<price>$6.95</price>
+<description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
+<calories>950</calories></food></breakfast_menu>' .! !
+
+!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:55:21'!
+test04
+	| xmlDocument element subElements |
+	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString04 readStream."
+	self assert: xmlDocument version = '1.0'.
+	self assert: xmlDocument encoding = 'UTF-8' .
+	self assert: xmlDocument dtd isNil.
+	self assert: xmlDocument elements size = 1.
+	
+	element := xmlDocument elements first.
+	self assert: element name = #breakfast_menu.
+	subElements := element elements.	
+	self assert: subElements size = 5.
+
+	element := subElements third.
+	self assert: element name = #food.
+	subElements := element elements.
+	self assert: subElements size = 4.
+
+	element := subElements first.
+	self assert: element name = #name.
+	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
+
+	element := subElements second.
+	self assert: element name = #price.
+	self assert: element contents first string = '$8.95'.
+
+	element := subElements third.
+	self assert: element name = #description.
+	self assert: element contents first string =
+		'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
+
+	element := subElements fourth.
+	self assert: element name = #calories.
+	self assert: element contents first string = '900'.
+	
+	self assert: xmlDocument printString =
+'<?xml  version="1.0" encoding="UTF-8" ?>
+<breakfast_menu>
+<food>
+<name>Belgian Waffles</name>
+<price>$5.95</price>
+<description>¿Querés agüita, ñandú?</description>
+<calories>650</calories></food>
+<food>
+<name>Strawberry Belgian Waffles</name>
+<price>$7.95</price>
+<description>Лорем ипсум долор сит амет, дебет салутанди меи еи.</description>
+<calories>900</calories></food>
+<food>
+<name>Berry-Berry Belgian Waffles</name>
+<price>$8.95</price>
+<description>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</description>
+<calories>900</calories></food>
+<food>
+<name>French Toast</name>
+<price>$4.50</price>
+<description>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</description>
+<calories>600</calories></food>
+<food>
+<name>Homestyle Breakfast</name>
+<price>$6.95</price>
+<description>¿Querés agüita, ñandú?</description>
+<calories>950</calories></food></breakfast_menu>' .! !
+
+!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:59:25'!
+test05
+	| xmlDocument element subElements |
+	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString05 readStream."
+	self assert: xmlDocument version = '1.0'.
+	self assert: xmlDocument encoding = 'UTF-8' .
+	self assert: xmlDocument dtd isNil.
+	self assert: xmlDocument elements size = 1.
+	
+	element := xmlDocument elements first.
+	self assert: element name = #breakfast_menu.
+	subElements := element elements.	
+	self assert: subElements size = 5.
+
+	element := subElements third.
+	self assert: element name = #food.
+	subElements := element elements.
+	self assert: subElements size = 4.
+
+	element := subElements first.
+	self assert: element name = 'agüita'.
+	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
+
+	element := subElements second.
+	self assert: element name = 'ñandú'.
+	self assert: element contents first string = '$8.95'.
+
+	element := subElements third.
+	self assert: element name = 'Лорем'.
+	self assert: element contents first string =
+		'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
+
+	element := subElements fourth.
+	self assert: element name = 'ελιτ'.
+	self assert: element contents first string = '900'.
+	
+	self assert: xmlDocument printString =
+'<?xml  version="1.0" encoding="UTF-8" ?>
+<breakfast_menu>
+<food>
+<agüita>Belgian Waffles</agüita>
+<ñandú>$5.95</ñandú>
+<Лорем>¿Querés agüita, ñandú?</Лорем>
+<ελιτ>650</ελιτ></food>
+<food>
+<agüita>Strawberry Belgian Waffles</agüita>
+<ñandú>$7.95</ñandú>
+<Лорем>Лорем ипсум долор сит амет, дебет салутанди меи еи.</Лорем>
+<ελιτ>900</ελιτ></food>
+<food>
+<agüita>Berry-Berry Belgian Waffles</agüita>
+<ñandú>$8.95</ñandú>
+<Лорем>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</Лорем>
+<ελιτ>900</ελιτ></food>
+<food>
+<agüita>French Toast</agüita>
+<ñandú>$4.50</ñandú>
+<Лорем>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</Лорем>
+<ελιτ>600</ελιτ></food>
+<food>
+<agüita>Homestyle Breakfast</agüita>
+<ñandú>$6.95</ñandú>
+<Лорем>¿Querés agüita, ñandú?</Лорем>
+<ελιτ>950</ελιτ></food></breakfast_menu>' .! !
+
+!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:59:38'!
+test06
+	| xmlDocument element subElements heading |
+	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString06 readStream."
+	self assert: xmlDocument version = '1.0'.
+	self assert: xmlDocument encoding = 'UTF-8' .
+	self assert: xmlDocument dtd isNil.
+	self assert: xmlDocument elements size = 1.
+	element := xmlDocument elements first.
+	self assert: element name = #note.
+	subElements := element elements.
+	self assert: subElements size = 4.
+	heading := subElements third.
+	self assert: heading name = #heading.
+	self assert: heading contents first string = 'Reminder'.
+	
+	self assert: xmlDocument printString = 
+'<?xml  version="1.0" encoding="UTF-8" ?>
+<note>
+<to>Tovep̂</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Don''t forget me this weekend!!</body></note>'.! !
 
 !XMLPullParser methodsFor: 'accessing' stamp: 'ess 6/6/2025 07:41:59'!
 context
@@ -832,495 +1320,6 @@ isWhitespace
 
 	^ lookahead notNil
 		and: [ #(9 10 13 32) statePointsTo: lookahead codePoint ]! !
-
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:00'!
-testCharacterData
-
-	| parser event |
-	parser := XMLPullParser new.
-	parser writeStream nextPutAll: '<to>To'.
-	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
-	
-	event := parser nextEvent.
-	self assert: (event isKindOf: XMLCharacterDataEvent).
-	self
-		assert: event content
-		equals: 'To'.
-		
-	self assert: (parser nextEvent) isNil.
-	parser writeStream nextPutAll: 've'.
-	
-	event := parser nextEvent.
-	self assert: (event isKindOf: XMLCharacterDataEvent).
-	self
-		assert: event content
-		equals: 've'! !
-
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:08'!
-testEmptyInput
-
-	| parser |
-	parser := XMLPullParser new.
-	self assert: parser nextEvent isNil! !
-
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:12'!
-testFragmentInput
-
-	| parser |
-	parser := XMLPullParser new.
-	parser writeStream nextPutAll: '<?xml version="1.0" encoding="UTF-8"'.
-	self assert: parser nextEvent isNil.
-	parser writeStream nextPutAll: '?>'.
-	self assert: parser nextEvent notNil! !
-
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 07:19:48'!
-testNamespaces
-
-	| stanza parser event |
-	
-	stanza := '<?xml version="1.0"?><stream:stream from="juliet@im.example.com" to="im.example.com" version="1.0" xml:lang="en" xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams">'.
-	parser := XMLPullParser new.
-	parser writeStream nextPutAll: stanza.
-	parser nextEvent.  "Discard"
-
-	event := parser nextEvent.
-	self assert: (event isKindOf: XMLNamespaceStartEvent).
-	self assert: event prefix isNil.
-	self
-		assert: event uri
-		equals: 'jabber:client'.
-		
-	event := parser nextEvent.
-	self
-		assert: event prefix
-		equals: 'stream'.
-	self
-		assert: event uri
-		equals: 'http://etherx.jabber.org/streams'.
-		
-	event := parser nextEvent.
-	self assert: (event isKindOf: XMLElementStartEvent).
-	self
-		assert: event name uri
-		equals: 'http://etherx.jabber.org/streams'! !
-
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:23'!
-testStartElement
-
-	| parser |
-	parser := XMLPullParser new.
-	parser writeStream nextPutAll: '<note><to>Tove'.
-	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
-	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
-	self assert: (parser nextEvent isKindOf: XMLCharacterDataEvent)! !
-
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:04'!
-exampleString01
-	"https://www.w3schools.com/xml/note.xml"
-
-	^
-'<?xml version="1.0" encoding="UTF-8"?>
-<note>
-  <to>Tove</to>
-  <from>Jani</from>
-  <heading>Reminder</heading>
-  <body>Don''t forget me this weekend!!</body>
-</note>'! !
-
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:13'!
-exampleString02
-	"https://www.w3schools.com/xml/note.xml"
-
-	^
-'<?xml version="1.0" encoding="UTF-8"?>
-<note>
-  <to>Tove</to>
-  <from>Jani</from>
-  <heading>&#8222;Sicherheitshinweise&#x201C;</heading>
-  <body>Don''t forget me this weekend!!</body>
-</note>'! !
-
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:19'!
-exampleString03
-	"https://www.w3schools.com/xml/note.xml"
-
-	^
-'<?xml version="1.0" encoding="UTF-8"?>
-<breakfast_menu>
-   <food>
-       <name>Belgian Waffles</name>
-       <price>$5.95</price>
-       <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
-       <calories>650</calories> </food>
-   <food>
-       <name>Strawberry Belgian Waffles</name>
-       <price>$7.95</price>
-       <description>Light Belgian waffles covered with strawberries and whipped cream</description>
-       <calories>900</calories> </food>
-   <food>
-       <name>Berry-Berry Belgian Waffles</name>
-       <price>$8.95</price>
-       <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
-       <calories>900</calories> </food>
-   <food>
-       <name>French Toast</name>
-       <price>$4.50</price>
-       <description>Thick slices made from our homemade sourdough bread</description>
-       <calories>600</calories> </food>
-   <food>
-       <name>Homestyle Breakfast</name>
-       <price>$6.95</price>
-       <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
-       <calories>950</calories> </food>
-</breakfast_menu>'! !
-
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:25'!
-exampleString04
-	"Exercise a bit Unicode."
-
-	^
-'<?xml version="1.0" encoding="UTF-8"?>
-<breakfast_menu>
-   <food>
-       <name>Belgian Waffles</name>
-       <price>$5.95</price>
-       <description>¿Querés agüita, ñandú?</description>
-       <calories>650</calories> </food>
-   <food>
-       <name>Strawberry Belgian Waffles</name>
-       <price>$7.95</price>
-       <description>Лорем ипсум долор сит амет, дебет салутанди меи еи.</description>
-       <calories>900</calories> </food>
-   <food>
-       <name>Berry-Berry Belgian Waffles</name>
-       <price>$8.95</price>
-       <description>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</description>
-       <calories>900</calories> </food>
-   <food>
-       <name>French Toast</name>
-       <price>$4.50</price>
-       <description>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</description>
-       <calories>600</calories> </food>
-   <food>
-       <name>Homestyle Breakfast</name>
-       <price>$6.95</price>
-       <description>¿Querés agüita, ñandú?</description>
-       <calories>950</calories> </food>
-</breakfast_menu>'! !
-
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:31'!
-exampleString05
-	"Exercise a bit Unicode."
-
-	^
-'<?xml version="1.0" encoding="UTF-8"?>
-<breakfast_menu>
-   <food>
-       <agüita>Belgian Waffles</agüita>
-       <ñandú>$5.95</ñandú>
-       <Лорем>¿Querés agüita, ñandú?</Лорем>
-       <ελιτ>650</ελιτ> </food>
-   <food>
-       <agüita>Strawberry Belgian Waffles</agüita>
-       <ñandú>$7.95</ñandú>
-       <Лорем>Лорем ипсум долор сит амет, дебет салутанди меи еи.</Лорем>
-       <ελιτ>900</ελιτ> </food>
-   <food>
-       <agüita>Berry-Berry Belgian Waffles</agüita>
-       <ñandú>$8.95</ñandú>
-       <Лорем>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</Лорем>
-       <ελιτ>900</ελιτ> </food>
-   <food>
-       <agüita>French Toast</agüita>
-       <ñandú>$4.50</ñandú>
-       <Лорем>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</Лорем>
-       <ελιτ>600</ελιτ> </food>
-   <food>
-       <agüita>Homestyle Breakfast</agüita>
-       <ñandú>$6.95</ñandú>
-       <Лорем>¿Querés agüita, ñandú?</Лорем>
-       <ελιτ>950</ελιτ> </food>
-</breakfast_menu>'! !
-
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:37'!
-exampleString06
-	"Exercise a bit Unicode."
-
-	^
-'<?xml version="1.0" encoding="UTF-8"?>
-<note>
-  <to>Tovep̂</to>
-  <from>Jani</from>
-  <heading>Reminder</heading>
-  <body>Don''t forget me this weekend!!</body>
-</note>'! !
-
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:54:33'!
-test01
-	| xmlDocument element subElements heading |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString01 readStream."
-	self assert: xmlDocument version = '1.0'.
-	self assert: xmlDocument encoding = 'UTF-8' .
-	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	element := xmlDocument elements first.
-	self assert: element name = #note.
-	subElements := element elements.
-	self assert: subElements size = 4.
-	heading := subElements third.
-	self assert: heading name = #heading.
-	self assert: heading contents first string = 'Reminder'.
-	
-	self assert: xmlDocument printString = 
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<note>
-<to>Tove</to>
-<from>Jani</from>
-<heading>Reminder</heading>
-<body>Don''t forget me this weekend!!</body></note>'.! !
-
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:54:47'!
-test02
-	| xmlDocument element subElements heading |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString02 readStream."
-	self assert: xmlDocument version = '1.0'.
-	self assert: xmlDocument encoding = 'UTF-8' .
-	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	element := xmlDocument elements first.
-	self assert: element name = #note.
-	subElements := element elements.
-	self assert: subElements size = 4.
-	heading := subElements third.
-	self assert: heading name = #heading.
-	self assert: heading contents first string = '„Sicherheitshinweise“'.
-	
-	self assert: xmlDocument printString = 
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<note>
-<to>Tove</to>
-<from>Jani</from>
-<heading>„Sicherheitshinweise“</heading>
-<body>Don''t forget me this weekend!!</body></note>' ! !
-
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:55:04'!
-test03
-	| xmlDocument element subElements |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString03 readStream."
-	self assert: xmlDocument version = '1.0'.
-	self assert: xmlDocument encoding = 'UTF-8' .
-	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	
-	element := xmlDocument elements first.
-	self assert: element name = #breakfast_menu.
-	subElements := element elements.	
-	self assert: subElements size = 5.
-
-	element := subElements third.
-	self assert: element name = #food.
-	subElements := element elements.
-	self assert: subElements size = 4.
-
-	element := subElements first.
-	self assert: element name = #name.
-	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
-
-	element := subElements second.
-	self assert: element name = #price.
-	self assert: element contents first string = '$8.95'.
-
-	element := subElements third.
-	self assert: element name = #description.
-	self assert: element contents first string =
-		'Light Belgian waffles covered with an assortment of fresh berries and whipped cream'.
-
-	element := subElements fourth.
-	self assert: element name = #calories.
-	self assert: element contents first string = '900'.
-	
-	self assert: xmlDocument printString =
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<breakfast_menu>
-<food>
-<name>Belgian Waffles</name>
-<price>$5.95</price>
-<description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
-<calories>650</calories></food>
-<food>
-<name>Strawberry Belgian Waffles</name>
-<price>$7.95</price>
-<description>Light Belgian waffles covered with strawberries and whipped cream</description>
-<calories>900</calories></food>
-<food>
-<name>Berry-Berry Belgian Waffles</name>
-<price>$8.95</price>
-<description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
-<calories>900</calories></food>
-<food>
-<name>French Toast</name>
-<price>$4.50</price>
-<description>Thick slices made from our homemade sourdough bread</description>
-<calories>600</calories></food>
-<food>
-<name>Homestyle Breakfast</name>
-<price>$6.95</price>
-<description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
-<calories>950</calories></food></breakfast_menu>' .! !
-
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:55:21'!
-test04
-	| xmlDocument element subElements |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString04 readStream."
-	self assert: xmlDocument version = '1.0'.
-	self assert: xmlDocument encoding = 'UTF-8' .
-	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	
-	element := xmlDocument elements first.
-	self assert: element name = #breakfast_menu.
-	subElements := element elements.	
-	self assert: subElements size = 5.
-
-	element := subElements third.
-	self assert: element name = #food.
-	subElements := element elements.
-	self assert: subElements size = 4.
-
-	element := subElements first.
-	self assert: element name = #name.
-	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
-
-	element := subElements second.
-	self assert: element name = #price.
-	self assert: element contents first string = '$8.95'.
-
-	element := subElements third.
-	self assert: element name = #description.
-	self assert: element contents first string =
-		'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
-
-	element := subElements fourth.
-	self assert: element name = #calories.
-	self assert: element contents first string = '900'.
-	
-	self assert: xmlDocument printString =
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<breakfast_menu>
-<food>
-<name>Belgian Waffles</name>
-<price>$5.95</price>
-<description>¿Querés agüita, ñandú?</description>
-<calories>650</calories></food>
-<food>
-<name>Strawberry Belgian Waffles</name>
-<price>$7.95</price>
-<description>Лорем ипсум долор сит амет, дебет салутанди меи еи.</description>
-<calories>900</calories></food>
-<food>
-<name>Berry-Berry Belgian Waffles</name>
-<price>$8.95</price>
-<description>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</description>
-<calories>900</calories></food>
-<food>
-<name>French Toast</name>
-<price>$4.50</price>
-<description>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</description>
-<calories>600</calories></food>
-<food>
-<name>Homestyle Breakfast</name>
-<price>$6.95</price>
-<description>¿Querés agüita, ñandú?</description>
-<calories>950</calories></food></breakfast_menu>' .! !
-
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:59:25'!
-test05
-	| xmlDocument element subElements |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString05 readStream."
-	self assert: xmlDocument version = '1.0'.
-	self assert: xmlDocument encoding = 'UTF-8' .
-	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	
-	element := xmlDocument elements first.
-	self assert: element name = #breakfast_menu.
-	subElements := element elements.	
-	self assert: subElements size = 5.
-
-	element := subElements third.
-	self assert: element name = #food.
-	subElements := element elements.
-	self assert: subElements size = 4.
-
-	element := subElements first.
-	self assert: element name = 'agüita'.
-	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
-
-	element := subElements second.
-	self assert: element name = 'ñandú'.
-	self assert: element contents first string = '$8.95'.
-
-	element := subElements third.
-	self assert: element name = 'Лорем'.
-	self assert: element contents first string =
-		'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
-
-	element := subElements fourth.
-	self assert: element name = 'ελιτ'.
-	self assert: element contents first string = '900'.
-	
-	self assert: xmlDocument printString =
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<breakfast_menu>
-<food>
-<agüita>Belgian Waffles</agüita>
-<ñandú>$5.95</ñandú>
-<Лорем>¿Querés agüita, ñandú?</Лорем>
-<ελιτ>650</ελιτ></food>
-<food>
-<agüita>Strawberry Belgian Waffles</agüita>
-<ñandú>$7.95</ñandú>
-<Лорем>Лорем ипсум долор сит амет, дебет салутанди меи еи.</Лорем>
-<ελιτ>900</ελιτ></food>
-<food>
-<agüita>Berry-Berry Belgian Waffles</agüita>
-<ñandú>$8.95</ñandú>
-<Лорем>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</Лорем>
-<ελιτ>900</ελιτ></food>
-<food>
-<agüita>French Toast</agüita>
-<ñandú>$4.50</ñandú>
-<Лорем>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</Лорем>
-<ελιτ>600</ελιτ></food>
-<food>
-<agüita>Homestyle Breakfast</agüita>
-<ñandú>$6.95</ñandú>
-<Лорем>¿Querés agüita, ñandú?</Лорем>
-<ελιτ>950</ελιτ></food></breakfast_menu>' .! !
-
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:59:38'!
-test06
-	| xmlDocument element subElements heading |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString06 readStream."
-	self assert: xmlDocument version = '1.0'.
-	self assert: xmlDocument encoding = 'UTF-8' .
-	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	element := xmlDocument elements first.
-	self assert: element name = #note.
-	subElements := element elements.
-	self assert: subElements size = 4.
-	heading := subElements third.
-	self assert: heading name = #heading.
-	self assert: heading contents first string = 'Reminder'.
-	
-	self assert: xmlDocument printString = 
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<note>
-<to>Tovep̂</to>
-<from>Jani</from>
-<heading>Reminder</heading>
-<body>Don''t forget me this weekend!!</body></note>'.! !
 
 !StreamBuffer methodsFor: 'as yet unclassified' stamp: 'ess 11/7/2024 17:26:10'!
 atEnd
