@@ -1,365 +1,362 @@
-'From Cuis7.5 [latest update: #7263] on 9 June 2025 at 11:32:02 am'!
+'From Cuis7.5 [latest update: #7302] on 2 July 2025 at 1:47:51 pm'!
 'Description '!
-!provides: 'Xml' 1 3!
+!provides: 'Xml' 1 4!
 !requires: 'Cuis-Base' 75 7262 nil!
-!requires: 'Unicode' 1 2 nil!
+!requires: 'Unicode' 1 7 nil!
 SystemOrganization addCategory: #XML!
+SystemOrganization addCategory: #'XML-Private'!
+SystemOrganization addCategory: #'XML-Public'!
 SystemOrganization addCategory: #'XML-Tests'!
 
 
-!classDefinition: #XMLPullParserTests category: #'XML-Tests'!
-TestCase subclass: #XMLPullParserTests
+!classDefinition: #XmlPullParserTests category: #'XML-Tests'!
+TestCase subclass: #XmlPullParserTests
+	instanceVariableNames: 'parser'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'XML-Tests'!
+!classDefinition: 'XmlPullParserTests class' category: #'XML-Tests'!
+XmlPullParserTests class
+	instanceVariableNames: ''!
+
+!classDefinition: #XmlSerializerTests category: #'XML-Tests'!
+TestCase subclass: #XmlSerializerTests
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'XML-Tests'!
-!classDefinition: 'XMLPullParserTests class' category: #'XML-Tests'!
-XMLPullParserTests class
+!classDefinition: 'XmlSerializerTests class' category: #'XML-Tests'!
+XmlSerializerTests class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLSerializerTests category: #'XML-Tests'!
-TestCase subclass: #XMLSerializerTests
-	instanceVariableNames: ''
+!classDefinition: #XmlTests category: #'XML-Tests'!
+TestCase subclass: #XmlTests
+	instanceVariableNames: 'document'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'XML-Tests'!
-!classDefinition: 'XMLSerializerTests class' category: #'XML-Tests'!
-XMLSerializerTests class
+!classDefinition: 'XmlTests class' category: #'XML-Tests'!
+XmlTests class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLTests category: #'XML-Tests'!
-TestCase subclass: #XMLTests
-	instanceVariableNames: ''
+!classDefinition: #XmlPullParser category: #'XML-Public'!
+RecursiveDescentParser subclass: #XmlPullParser
+	instanceVariableNames: 'error buffer contexts events'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML-Tests'!
-!classDefinition: 'XMLTests class' category: #'XML-Tests'!
-XMLTests class
+	category: 'XML-Public'!
+!classDefinition: 'XmlPullParser class' category: #'XML-Public'!
+XmlPullParser class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLPullParser category: #XML!
-RecursiveDescentParser subclass: #XMLPullParser
-	instanceVariableNames: 'contexts events error buffer'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLPullParser class' category: #XML!
-XMLPullParser class
-	instanceVariableNames: ''!
-
-!classDefinition: #StreamBuffer category: #XML!
+!classDefinition: #StreamBuffer category: #'XML-Private'!
 Object subclass: #StreamBuffer
 	instanceVariableNames: 'buffer writePosition readPosition'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'StreamBuffer class' category: #XML!
+	category: 'XML-Private'!
+!classDefinition: 'StreamBuffer class' category: #'XML-Private'!
 StreamBuffer class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeakReference category: #XML!
+!classDefinition: #WeakReference category: #'XML-Private'!
 Object weakSubclass: #WeakReference
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'WeakReference class' category: #XML!
+	category: 'XML-Private'!
+!classDefinition: 'WeakReference class' category: #'XML-Private'!
 WeakReference class
 	instanceVariableNames: ''!
 
-!classDefinition: #XML category: #XML!
-Object subclass: #XML
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XML class' category: #XML!
-XML class
-	instanceVariableNames: ''!
-
-!classDefinition: #XMLBuilder category: #XML!
-Object subclass: #XMLBuilder
-	instanceVariableNames: 'namespaces elements root'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLBuilder class' category: #XML!
-XMLBuilder class
-	instanceVariableNames: ''!
-
-!classDefinition: #XMLContext category: #XML!
-Object subclass: #XMLContext
+!classDefinition: #XmlContext category: #'XML-Private'!
+Object subclass: #XmlContext
 	instanceVariableNames: 'name namespaces'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLContext class' category: #XML!
-XMLContext class
+	category: 'XML-Private'!
+!classDefinition: 'XmlContext class' category: #'XML-Private'!
+XmlContext class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLContextStack category: #XML!
-Object subclass: #XMLContextStack
+!classDefinition: #XmlContextStack category: #'XML-Private'!
+Object subclass: #XmlContextStack
 	instanceVariableNames: 'contexts'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLContextStack class' category: #XML!
-XMLContextStack class
+	category: 'XML-Private'!
+!classDefinition: 'XmlContextStack class' category: #'XML-Private'!
+XmlContextStack class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLEvent category: #XML!
-Object subclass: #XMLEvent
+!classDefinition: #Xml category: #'XML-Public'!
+Object subclass: #Xml
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLEvent class' category: #XML!
-XMLEvent class
+	category: 'XML-Public'!
+!classDefinition: 'Xml class' category: #'XML-Public'!
+Xml class
+	instanceVariableNames: 'nameCharacter nameStartCharacter'!
+
+!classDefinition: #XmlBuilder category: #'XML-Public'!
+Object subclass: #XmlBuilder
+	instanceVariableNames: 'namespaces elements root'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'XML-Public'!
+!classDefinition: 'XmlBuilder class' category: #'XML-Public'!
+XmlBuilder class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLCharacterDataEvent category: #XML!
-XMLEvent subclass: #XMLCharacterDataEvent
+!classDefinition: #XmlEvent category: #'XML-Public'!
+Object subclass: #XmlEvent
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'XML-Public'!
+!classDefinition: 'XmlEvent class' category: #'XML-Public'!
+XmlEvent class
+	instanceVariableNames: ''!
+
+!classDefinition: #XmlCharacterDataEvent category: #'XML-Public'!
+XmlEvent subclass: #XmlCharacterDataEvent
 	instanceVariableNames: 'content'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLCharacterDataEvent class' category: #XML!
-XMLCharacterDataEvent class
+	category: 'XML-Public'!
+!classDefinition: 'XmlCharacterDataEvent class' category: #'XML-Public'!
+XmlCharacterDataEvent class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLCommentEvent category: #XML!
-XMLEvent subclass: #XMLCommentEvent
+!classDefinition: #XmlCommentEvent category: #'XML-Public'!
+XmlEvent subclass: #XmlCommentEvent
 	instanceVariableNames: 'content'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLCommentEvent class' category: #XML!
-XMLCommentEvent class
+	category: 'XML-Public'!
+!classDefinition: 'XmlCommentEvent class' category: #'XML-Public'!
+XmlCommentEvent class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLElementEndEvent category: #XML!
-XMLEvent subclass: #XMLElementEndEvent
+!classDefinition: #XmlElementEndEvent category: #'XML-Public'!
+XmlEvent subclass: #XmlElementEndEvent
 	instanceVariableNames: 'name'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLElementEndEvent class' category: #XML!
-XMLElementEndEvent class
+	category: 'XML-Public'!
+!classDefinition: 'XmlElementEndEvent class' category: #'XML-Public'!
+XmlElementEndEvent class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLElementStartEvent category: #XML!
-XMLEvent subclass: #XMLElementStartEvent
+!classDefinition: #XmlElementStartEvent category: #'XML-Public'!
+XmlEvent subclass: #XmlElementStartEvent
 	instanceVariableNames: 'name attributes'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLElementStartEvent class' category: #XML!
-XMLElementStartEvent class
+	category: 'XML-Public'!
+!classDefinition: 'XmlElementStartEvent class' category: #'XML-Public'!
+XmlElementStartEvent class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLErrorEvent category: #XML!
-XMLEvent subclass: #XMLErrorEvent
+!classDefinition: #XmlErrorEvent category: #'XML-Public'!
+XmlEvent subclass: #XmlErrorEvent
 	instanceVariableNames: 'message'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLErrorEvent class' category: #XML!
-XMLErrorEvent class
+	category: 'XML-Public'!
+!classDefinition: 'XmlErrorEvent class' category: #'XML-Public'!
+XmlErrorEvent class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLNamespaceEndEvent category: #XML!
-XMLEvent subclass: #XMLNamespaceEndEvent
+!classDefinition: #XmlNamespaceEndEvent category: #'XML-Public'!
+XmlEvent subclass: #XmlNamespaceEndEvent
 	instanceVariableNames: 'prefix'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLNamespaceEndEvent class' category: #XML!
-XMLNamespaceEndEvent class
+	category: 'XML-Public'!
+!classDefinition: 'XmlNamespaceEndEvent class' category: #'XML-Public'!
+XmlNamespaceEndEvent class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLNamespaceStartEvent category: #XML!
-XMLEvent subclass: #XMLNamespaceStartEvent
+!classDefinition: #XmlNamespaceStartEvent category: #'XML-Public'!
+XmlEvent subclass: #XmlNamespaceStartEvent
 	instanceVariableNames: 'prefix uri'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLNamespaceStartEvent class' category: #XML!
-XMLNamespaceStartEvent class
+	category: 'XML-Public'!
+!classDefinition: 'XmlNamespaceStartEvent class' category: #'XML-Public'!
+XmlNamespaceStartEvent class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLProcessingInstructionEvent category: #XML!
-XMLEvent subclass: #XMLProcessingInstructionEvent
+!classDefinition: #XmlProcessingInstructionEvent category: #'XML-Public'!
+XmlEvent subclass: #XmlProcessingInstructionEvent
 	instanceVariableNames: 'target content'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLProcessingInstructionEvent class' category: #XML!
-XMLProcessingInstructionEvent class
+	category: 'XML-Public'!
+!classDefinition: 'XmlProcessingInstructionEvent class' category: #'XML-Public'!
+XmlProcessingInstructionEvent class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLNode category: #XML!
-Object subclass: #XMLNode
+!classDefinition: #XmlNode category: #'XML-Public'!
+Object subclass: #XmlNode
 	instanceVariableNames: 'parent'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLNode class' category: #XML!
-XMLNode class
+	category: 'XML-Public'!
+!classDefinition: 'XmlNode class' category: #'XML-Public'!
+XmlNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLAttribute category: #XML!
-XMLNode subclass: #XMLAttribute
+!classDefinition: #XmlAttribute category: #'XML-Public'!
+XmlNode subclass: #XmlAttribute
 	instanceVariableNames: 'name value'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLAttribute class' category: #XML!
-XMLAttribute class
+	category: 'XML-Public'!
+!classDefinition: 'XmlAttribute class' category: #'XML-Public'!
+XmlAttribute class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLComment category: #XML!
-XMLNode subclass: #XMLComment
+!classDefinition: #XmlComment category: #'XML-Public'!
+XmlNode subclass: #XmlComment
 	instanceVariableNames: 'content'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLComment class' category: #XML!
-XMLComment class
+	category: 'XML-Public'!
+!classDefinition: 'XmlComment class' category: #'XML-Public'!
+XmlComment class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLDocument category: #XML!
-XMLNode subclass: #XMLDocument
-	instanceVariableNames: 'children'
+!classDefinition: #XmlDocument category: #'XML-Public'!
+XmlNode subclass: #XmlDocument
+	instanceVariableNames: 'prolog children'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLDocument class' category: #XML!
-XMLDocument class
+	category: 'XML-Public'!
+!classDefinition: 'XmlDocument class' category: #'XML-Public'!
+XmlDocument class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLElement category: #XML!
-XMLNode subclass: #XMLElement
-	instanceVariableNames: 'name attributes namespaces children'
+!classDefinition: #XmlElement category: #'XML-Public'!
+XmlNode subclass: #XmlElement
+	instanceVariableNames: 'name children attributes namespaces'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLElement class' category: #XML!
-XMLElement class
+	category: 'XML-Public'!
+!classDefinition: 'XmlElement class' category: #'XML-Public'!
+XmlElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLNamespace category: #XML!
-XMLNode subclass: #XMLNamespace
+!classDefinition: #XmlNamespace category: #'XML-Public'!
+XmlNode subclass: #XmlNamespace
 	instanceVariableNames: 'prefix uri'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLNamespace class' category: #XML!
-XMLNamespace class
+	category: 'XML-Public'!
+!classDefinition: 'XmlNamespace class' category: #'XML-Public'!
+XmlNamespace class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLProcessingInstruction category: #XML!
-XMLNode subclass: #XMLProcessingInstruction
+!classDefinition: #XmlProcessingInstruction category: #'XML-Public'!
+XmlNode subclass: #XmlProcessingInstruction
 	instanceVariableNames: 'target content'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLProcessingInstruction class' category: #XML!
-XMLProcessingInstruction class
+	category: 'XML-Public'!
+!classDefinition: 'XmlProcessingInstruction class' category: #'XML-Public'!
+XmlProcessingInstruction class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLTextNode category: #XML!
-XMLNode subclass: #XMLTextNode
+!classDefinition: #XmlTextNode category: #'XML-Public'!
+XmlNode subclass: #XmlTextNode
 	instanceVariableNames: 'content'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLTextNode class' category: #XML!
-XMLTextNode class
+	category: 'XML-Public'!
+!classDefinition: 'XmlTextNode class' category: #'XML-Public'!
+XmlTextNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLQualifiedName category: #XML!
-Object subclass: #XMLQualifiedName
+!classDefinition: #XmlQualifiedName category: #'XML-Public'!
+Object subclass: #XmlQualifiedName
 	instanceVariableNames: 'local prefix uri'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLQualifiedName class' category: #XML!
-XMLQualifiedName class
+	category: 'XML-Public'!
+!classDefinition: 'XmlQualifiedName class' category: #'XML-Public'!
+XmlQualifiedName class
 	instanceVariableNames: ''!
 
-!classDefinition: #XMLSerializer category: #XML!
-Object subclass: #XMLSerializer
-	instanceVariableNames: 'contexts output'
+!classDefinition: #XmlSerializer category: #'XML-Public'!
+Object subclass: #XmlSerializer
+	instanceVariableNames: 'contexts stream'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLSerializer class' category: #XML!
-XMLSerializer class
-	instanceVariableNames: ''!
-
-!classDefinition: #XMLCanonicalSerializer category: #XML!
-XMLSerializer subclass: #XMLCanonicalSerializer
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'XML'!
-!classDefinition: 'XMLCanonicalSerializer class' category: #XML!
-XMLCanonicalSerializer class
+	category: 'XML-Public'!
+!classDefinition: 'XmlSerializer class' category: #'XML-Public'!
+XmlSerializer class
 	instanceVariableNames: ''!
 
 
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:00'!
+!XmlPullParserTests methodsFor: 'running' stamp: 'ess 7/2/2025 08:09:32'!
+input: aString
+
+	parser writeStream
+		nextPutAll: aString! !
+
+!XmlPullParserTests methodsFor: 'setUp/tearDown' stamp: 'ess 7/2/2025 08:08:20'!
+setUp
+
+	parser := XmlPullParser new! !
+
+!XmlPullParserTests methodsFor: 'tests' stamp: 'ess 7/2/2025 08:31:50'!
 testCharacterData
 
-	| parser event |
-	parser := XMLPullParser new.
-	parser writeStream nextPutAll: '<to>To'.
-	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
+	| event |
+	self input: '<to>To'.
+	self assert: (parser nextEvent isKindOf: XmlElementStartEvent).
 	
 	event := parser nextEvent.
-	self assert: (event isKindOf: XMLCharacterDataEvent).
+	self assert: (event isKindOf: XmlCharacterDataEvent).
 	self
 		assert: event content
 		equals: 'To'.
 		
 	self assert: (parser nextEvent) isNil.
-	parser writeStream nextPutAll: 've'.
+	self input: 've'.
 	
 	event := parser nextEvent.
-	self assert: (event isKindOf: XMLCharacterDataEvent).
+	self assert: (event isKindOf: XmlCharacterDataEvent).
 	self
 		assert: event content
 		equals: 've'! !
 
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:08'!
+!XmlPullParserTests methodsFor: 'tests' stamp: 'ess 7/2/2025 08:08:32'!
 testEmptyInput
 
-	| parser |
-	parser := XMLPullParser new.
 	self assert: parser nextEvent isNil! !
 
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:12'!
+!XmlPullParserTests methodsFor: 'tests' stamp: 'ess 7/2/2025 08:10:45'!
 testFragmentInput
 
-	| parser |
-	parser := XMLPullParser new.
-	parser writeStream nextPutAll: '<?xml version="1.0" encoding="UTF-8"'.
+	self input: '<?xml version="1.0" encoding="UTF-8"'.
 	self assert: parser nextEvent isNil.
-	parser writeStream nextPutAll: '?>'.
+	self input: '?>'.
 	self assert: parser nextEvent notNil! !
 
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 07:19:48'!
+!XmlPullParserTests methodsFor: 'tests' stamp: 'ess 7/2/2025 08:11:22'!
 testNamespaces
 
-	| stanza parser event |
+	| stanza event |
 	
 	stanza := '<?xml version="1.0"?><stream:stream from="juliet@im.example.com" to="im.example.com" version="1.0" xml:lang="en" xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams">'.
-	parser := XMLPullParser new.
-	parser writeStream nextPutAll: stanza.
+	self input: stanza.
 	parser nextEvent.  "Discard"
 
 	event := parser nextEvent.
-	self assert: (event isKindOf: XMLNamespaceStartEvent).
+	self assert: (event isKindOf: XmlNamespaceStartEvent).
 	self assert: event prefix isNil.
 	self
 		assert: event uri
@@ -374,22 +371,123 @@ testNamespaces
 		equals: 'http://etherx.jabber.org/streams'.
 		
 	event := parser nextEvent.
-	self assert: (event isKindOf: XMLElementStartEvent).
+	self assert: (event isKindOf: XmlElementStartEvent).
 	self
 		assert: event name uri
 		equals: 'http://etherx.jabber.org/streams'! !
 
-!XMLPullParserTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:29:23'!
+!XmlPullParserTests methodsFor: 'tests' stamp: 'ess 7/2/2025 08:11:41'!
 testStartElement
 
-	| parser |
-	parser := XMLPullParser new.
-	parser writeStream nextPutAll: '<note><to>Tove'.
-	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
-	self assert: (parser nextEvent isKindOf: XMLElementStartEvent).
-	self assert: (parser nextEvent isKindOf: XMLCharacterDataEvent)! !
+	self input: '<note><to>Tove'.
+	self assert: (parser nextEvent isKindOf: XmlElementStartEvent).
+	self assert: (parser nextEvent isKindOf: XmlElementStartEvent).
+	self assert: (parser nextEvent isKindOf: XmlCharacterDataEvent)! !
 
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:04'!
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/2/2025 09:59:35'!
+testAttributeOrder
+
+	| dolls dollhouse |
+	dolls := #('sierra' 'echo' 'victor') shuffled
+		collect: [ :each |
+			XmlAttribute
+				local: (each copyFrom: 1 to: 1)
+				value: each ].
+	dollhouse := XmlElement
+		local: 'dollhouse'
+		attributes: dolls.
+	self
+		assert: dollhouse printString
+		equals: '<dollhouse e="echo" s="sierra" v="victor"></dollhouse>'! !
+
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/2/2025 09:59:58'!
+testEmptyElement
+
+	| node |
+	node := XmlElement local: 'dollhouse'.
+	self
+		assert: node printString
+		equals: '<dollhouse></dollhouse>'! !
+
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/1/2025 15:48:56'!
+testEscapedAttribute
+
+	| node |
+	node := XmlAttribute
+		local: 'attribute'
+		value: '	"<this & that>"'.
+	self
+		assert: node printString
+		equals: ' attribute="&#x9;&quot;&lt;this &amp; that>&quot;"'! !
+
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/1/2025 15:24:54'!
+testEscapedText
+
+	| node |
+	node := XmlTextNode
+		content: '<this & that>', String crString.
+	self
+		assert: node printString
+		equals: '&lt;this &amp; that&gt;&#xD;'! !
+
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/2/2025 09:59:15'!
+testNamespaceOrder
+
+	| dolls dollhouse |
+	dolls := #('sierra' 'echo' 'victor') shuffled
+		collect: [ :each |
+			XmlNamespace
+				prefix: (each copyFrom: 1 to: 1)
+				uri: each ].
+	dollhouse := XmlElement local: 'dollhouse'.
+	dollhouse addNamespaces: dolls.
+	self
+		assert: dollhouse printString
+		equals: '<dollhouse xmlns:e="echo" xmlns:s="sierra" xmlns:v="victor"></dollhouse>'! !
+
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/1/2025 15:48:45'!
+testPlainAttribute
+
+	| node |
+	node := XmlAttribute
+		local: 'attribute'
+		value: 'this and that'.
+	self
+		assert: node printString
+		equals: ' attribute="this and that"'! !
+
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/1/2025 15:27:44'!
+testPlainText
+
+	| text node |
+	text := 'this and that', String lfString.
+	node := XmlTextNode content: text.
+	self
+		assert: node printString
+		equals: text! !
+
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/2/2025 09:58:47'!
+testRedundantNamespaces
+
+	| dolls dollhouse echo |
+	dolls := #('sierra' 'echo' 'victor') shuffled
+		collect: [ :each |
+			XmlNamespace
+				prefix: (each copyFrom: 1 to: 1)
+				uri: each ].
+	dollhouse := XmlElement local: 'dollhouse'.
+	dollhouse addNamespaces: dolls.
+	echo := XmlElement local: 'echo'.
+	echo addNamespace:
+		(XmlNamespace
+			prefix: 'e'
+			uri: 'echo').
+	dollhouse addChild: echo.
+	self
+		assert: dollhouse printString
+		equals: '<dollhouse xmlns:e="echo" xmlns:s="sierra" xmlns:v="victor"><echo></echo></dollhouse>'! !
+
+!XmlTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:04'!
 exampleString01
 	"https://www.w3schools.com/xml/note.xml"
 
@@ -402,7 +500,7 @@ exampleString01
   <body>Don''t forget me this weekend!!</body>
 </note>'! !
 
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:13'!
+!XmlTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:13'!
 exampleString02
 	"https://www.w3schools.com/xml/note.xml"
 
@@ -415,7 +513,7 @@ exampleString02
   <body>Don''t forget me this weekend!!</body>
 </note>'! !
 
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:19'!
+!XmlTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:19'!
 exampleString03
 	"https://www.w3schools.com/xml/note.xml"
 
@@ -449,7 +547,7 @@ exampleString03
        <calories>950</calories> </food>
 </breakfast_menu>'! !
 
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:25'!
+!XmlTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:25'!
 exampleString04
 	"Exercise a bit Unicode."
 
@@ -483,7 +581,7 @@ exampleString04
        <calories>950</calories> </food>
 </breakfast_menu>'! !
 
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:31'!
+!XmlTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:31'!
 exampleString05
 	"Exercise a bit Unicode."
 
@@ -517,7 +615,7 @@ exampleString05
        <ελιτ>950</ελιτ> </food>
 </breakfast_menu>'! !
 
-!XMLTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:37'!
+!XmlTests methodsFor: 'examples' stamp: 'ess 6/6/2025 11:00:37'!
 exampleString06
 	"Exercise a bit Unicode."
 
@@ -530,482 +628,436 @@ exampleString06
   <body>Don''t forget me this weekend!!</body>
 </note>'! !
 
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:54:33'!
+!XmlTests methodsFor: 'running' stamp: 'ess 7/2/2025 11:05:51'!
+parse: aStringOrStream
+
+	document := Xml parse: aStringOrStream! !
+
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:56:47'!
 test01
-	| xmlDocument element subElements heading |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString01 readStream."
-	self assert: xmlDocument version = '1.0'.
+
+	| element children |
+	"self assert: xmlDocument version = '1.0'.
 	self assert: xmlDocument encoding = 'UTF-8' .
 	self assert: xmlDocument dtd isNil.
 	self assert: xmlDocument elements size = 1.
-	element := xmlDocument elements first.
-	self assert: element name = #note.
-	subElements := element elements.
-	self assert: subElements size = 4.
-	heading := subElements third.
-	self assert: heading name = #heading.
-	self assert: heading contents first string = 'Reminder'.
-	
-	self assert: xmlDocument printString = 
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<note>
-<to>Tove</to>
-<from>Jani</from>
-<heading>Reminder</heading>
-<body>Don''t forget me this weekend!!</body></note>'.! !
+	element := xmlDocument elements first."
 
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:54:47'!
+	self parse: self exampleString01.
+	element := document element.
+	self assert: element tag equals: 'note'.
+	children := element elementChildren.
+	self assert: children size equals: 4.
+
+	element := children third.
+	self assert: element tag equals: 'heading'.
+	self
+		assert: element string
+		equals: 'Reminder'.
+	self
+		assert: element printString
+		equals: '<heading>Reminder</heading>'.
+
+	self
+		assert: document printString
+		equals: self exampleString01! !
+
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:56:42'!
 test02
-	| xmlDocument element subElements heading |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString02 readStream."
-	self assert: xmlDocument version = '1.0'.
+
+	| element children |
+	"self assert: xmlDocument version = '1.0'.
 	self assert: xmlDocument encoding = 'UTF-8' .
 	self assert: xmlDocument dtd isNil.
 	self assert: xmlDocument elements size = 1.
-	element := xmlDocument elements first.
-	self assert: element name = #note.
-	subElements := element elements.
-	self assert: subElements size = 4.
-	heading := subElements third.
-	self assert: heading name = #heading.
-	self assert: heading contents first string = '„Sicherheitshinweise“'.
-	
-	self assert: xmlDocument printString = 
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<note>
-<to>Tove</to>
-<from>Jani</from>
-<heading>„Sicherheitshinweise“</heading>
-<body>Don''t forget me this weekend!!</body></note>' ! !
+	element := xmlDocument elements first."
 
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:55:04'!
+	self parse: self exampleString02.
+	element := document element.
+	children := element elementChildren.
+
+	element := children third.
+	self assert: element tag equals: 'heading'.
+	self
+		assert: element string
+		equals: '„Sicherheitshinweise“'.
+	self
+		assert: element printString
+		equals: '<heading>„Sicherheitshinweise“</heading>'.
+
+	self
+		assert: document printString
+		equals:
+			'<?xml version="1.0" encoding="UTF-8"?>
+<note>
+  <to>Tove</to>
+  <from>Jani</from>
+  <heading>„Sicherheitshinweise“</heading>
+  <body>Don''t forget me this weekend!!</body>
+</note>'! !
+
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:56:37'!
 test03
-	| xmlDocument element subElements |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString03 readStream."
-	self assert: xmlDocument version = '1.0'.
+
+	| element children |
+	self parse: self exampleString03.
+	"self assert: xmlDocument version = '1.0'.
 	self assert: xmlDocument encoding = 'UTF-8' .
 	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	
-	element := xmlDocument elements first.
-	self assert: element name = #breakfast_menu.
-	subElements := element elements.	
-	self assert: subElements size = 5.
+	self assert: xmlDocument elements size = 1."
 
-	element := subElements third.
-	self assert: element name = #food.
-	subElements := element elements.
-	self assert: subElements size = 4.
+	element := document element.
+	self assert: element tag equals: 'breakfast_menu'.
+	children := element elementChildren.
+	self assert: children size equals: 5.
 
-	element := subElements first.
-	self assert: element name = #name.
-	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
+	element := children third.
+	self assert: element tag equals: 'food'.
+	children := element elementChildren.
+	self assert: children size equals: 4.
 
-	element := subElements second.
-	self assert: element name = #price.
-	self assert: element contents first string = '$8.95'.
+	element := children first.
+	self assert: element tag equals: 'name'.
+	self
+		assert: element string
+		equals: 'Berry-Berry Belgian Waffles'.
+	self
+		assert: element printString
+		equals: '<name>Berry-Berry Belgian Waffles</name>'.
 
-	element := subElements third.
-	self assert: element name = #description.
-	self assert: element contents first string =
-		'Light Belgian waffles covered with an assortment of fresh berries and whipped cream'.
+	element := children second.
+	self assert: element tag equals: 'price'.
+	self assert: element string equals: '$8.95'.
+	self
+		assert: element printString
+		equals: '<price>$8.95</price>'.
 
-	element := subElements fourth.
-	self assert: element name = #calories.
-	self assert: element contents first string = '900'.
-	
-	self assert: xmlDocument printString =
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<breakfast_menu>
-<food>
-<name>Belgian Waffles</name>
-<price>$5.95</price>
-<description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
-<calories>650</calories></food>
-<food>
-<name>Strawberry Belgian Waffles</name>
-<price>$7.95</price>
-<description>Light Belgian waffles covered with strawberries and whipped cream</description>
-<calories>900</calories></food>
-<food>
-<name>Berry-Berry Belgian Waffles</name>
-<price>$8.95</price>
-<description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
-<calories>900</calories></food>
-<food>
-<name>French Toast</name>
-<price>$4.50</price>
-<description>Thick slices made from our homemade sourdough bread</description>
-<calories>600</calories></food>
-<food>
-<name>Homestyle Breakfast</name>
-<price>$6.95</price>
-<description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
-<calories>950</calories></food></breakfast_menu>' .! !
+	element := children third.
+	self assert: element tag equals: 'description'.
+	self
+		assert: element string
+		equals: 'Light Belgian waffles covered with an assortment of fresh berries and whipped cream'.
 
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:55:21'!
+	element := children fourth.
+	self assert: element tag equals: 'calories'.
+	self assert: element string equals: '900'.
+	self
+		assert: element printString
+		equals: '<calories>900</calories>'.
+
+	self
+		assert: document printString
+		equals: self exampleString03! !
+
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:56:30'!
 test04
-	| xmlDocument element subElements |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString04 readStream."
-	self assert: xmlDocument version = '1.0'.
+
+	| element children |
+	"self assert: xmlDocument version = '1.0'.
 	self assert: xmlDocument encoding = 'UTF-8' .
 	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	
-	element := xmlDocument elements first.
-	self assert: element name = #breakfast_menu.
-	subElements := element elements.	
-	self assert: subElements size = 5.
+	self assert: xmlDocument elements size = 1."
 
-	element := subElements third.
-	self assert: element name = #food.
-	subElements := element elements.
-	self assert: subElements size = 4.
+	self parse: self exampleString04.
+	element := document element.
+	children := element elementChildren.
 
-	element := subElements first.
-	self assert: element name = #name.
-	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
+	element := children third.
+	children := element elementChildren.
 
-	element := subElements second.
-	self assert: element name = #price.
-	self assert: element contents first string = '$8.95'.
+	element := children first.
+	self
+		assert: element printString
+		equals: '<name>Berry-Berry Belgian Waffles</name>'.
 
-	element := subElements third.
-	self assert: element name = #description.
-	self assert: element contents first string =
-		'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
+	element := children second.
+	self
+		assert: element printString
+		equals: '<price>$8.95</price>'.
 
-	element := subElements fourth.
-	self assert: element name = #calories.
-	self assert: element contents first string = '900'.
-	
-	self assert: xmlDocument printString =
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<breakfast_menu>
-<food>
-<name>Belgian Waffles</name>
-<price>$5.95</price>
-<description>¿Querés agüita, ñandú?</description>
-<calories>650</calories></food>
-<food>
-<name>Strawberry Belgian Waffles</name>
-<price>$7.95</price>
-<description>Лорем ипсум долор сит амет, дебет салутанди меи еи.</description>
-<calories>900</calories></food>
-<food>
-<name>Berry-Berry Belgian Waffles</name>
-<price>$8.95</price>
-<description>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</description>
-<calories>900</calories></food>
-<food>
-<name>French Toast</name>
-<price>$4.50</price>
-<description>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</description>
-<calories>600</calories></food>
-<food>
-<name>Homestyle Breakfast</name>
-<price>$6.95</price>
-<description>¿Querés agüita, ñandú?</description>
-<calories>950</calories></food></breakfast_menu>' .! !
+	element := children third.
+	self assert: element tag equals: 'description'.
+	self
+		assert: element string
+		equals: 'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
 
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:59:25'!
+	element := children fourth.
+	self
+		assert: element printString
+		equals: '<calories>900</calories>'.
+
+	self
+		assert: document printString
+		equals: self exampleString04! !
+
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:57:14'!
 test05
-	| xmlDocument element subElements |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString05 readStream."
-	self assert: xmlDocument version = '1.0'.
+
+	| element children |
+	self parse: self exampleString05.
+	"self assert: xmlDocument version = '1.0'.
 	self assert: xmlDocument encoding = 'UTF-8' .
 	self assert: xmlDocument dtd isNil.
-	self assert: xmlDocument elements size = 1.
-	
-	element := xmlDocument elements first.
-	self assert: element name = #breakfast_menu.
-	subElements := element elements.	
-	self assert: subElements size = 5.
+	self assert: xmlDocument elements size = 1."
 
-	element := subElements third.
-	self assert: element name = #food.
-	subElements := element elements.
-	self assert: subElements size = 4.
+	element := document element.
+	children := element elementChildren.
 
-	element := subElements first.
-	self assert: element name = 'agüita'.
-	self assert: element contents first string = 'Berry-Berry Belgian Waffles'.
+	element := children third.
+	children := element elementChildren.
 
-	element := subElements second.
-	self assert: element name = 'ñandú'.
-	self assert: element contents first string = '$8.95'.
+	element := children first.
+	self
+		assert: element printString
+		equals: '<agüita>Berry-Berry Belgian Waffles</agüita>'.
 
-	element := subElements third.
-	self assert: element name = 'Лорем'.
-	self assert: element contents first string =
-		'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
+	element := children second.
+	self
+		assert: element printString
+		equals: '<ñandú>$8.95</ñandú>'.
 
-	element := subElements fourth.
-	self assert: element name = 'ελιτ'.
-	self assert: element contents first string = '900'.
-	
-	self assert: xmlDocument printString =
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<breakfast_menu>
-<food>
-<agüita>Belgian Waffles</agüita>
-<ñandú>$5.95</ñandú>
-<Лорем>¿Querés agüita, ñandú?</Лорем>
-<ελιτ>650</ελιτ></food>
-<food>
-<agüita>Strawberry Belgian Waffles</agüita>
-<ñandú>$7.95</ñandú>
-<Лорем>Лорем ипсум долор сит амет, дебет салутанди меи еи.</Лорем>
-<ελιτ>900</ελιτ></food>
-<food>
-<agüita>Berry-Berry Belgian Waffles</agüita>
-<ñandú>$8.95</ñandú>
-<Лорем>ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.</Лорем>
-<ελιτ>900</ελιτ></food>
-<food>
-<agüita>French Toast</agüita>
-<ñandú>$4.50</ñandú>
-<Лорем>Εξ σεα ελιτ δισσεντιετ, μαλισ τριτανι vισ ιδ.</Лорем>
-<ελιτ>600</ελιτ></food>
-<food>
-<agüita>Homestyle Breakfast</agüita>
-<ñandú>$6.95</ñandú>
-<Лорем>¿Querés agüita, ñandú?</Лорем>
-<ελιτ>950</ελιτ></food></breakfast_menu>' .! !
+	element := children third.
+	self assert: element tag equals: 'Лорем'.
+	self
+		assert: element string
+		equals: 'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
 
-!XMLTests methodsFor: 'tests' stamp: 'ess 6/6/2025 10:59:38'!
+	element := children fourth.
+	self
+		assert: element printString
+		equals: '<ελιτ>900</ελιτ>'.
+
+	self
+		assert: document printString
+		equals: self exampleString05! !
+
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:55:08'!
 test06
-	| xmlDocument element subElements heading |
-	"xmlDocument := XMLDOMParser parseDocumentFrom: self exampleString06 readStream."
-	self assert: xmlDocument version = '1.0'.
+
+	| element children |
+	"self assert: xmlDocument version = '1.0'.
 	self assert: xmlDocument encoding = 'UTF-8' .
 	self assert: xmlDocument dtd isNil.
 	self assert: xmlDocument elements size = 1.
-	element := xmlDocument elements first.
-	self assert: element name = #note.
-	subElements := element elements.
-	self assert: subElements size = 4.
-	heading := subElements third.
-	self assert: heading name = #heading.
-	self assert: heading contents first string = 'Reminder'.
-	
-	self assert: xmlDocument printString = 
-'<?xml  version="1.0" encoding="UTF-8" ?>
-<note>
-<to>Tovep̂</to>
-<from>Jani</from>
-<heading>Reminder</heading>
-<body>Don''t forget me this weekend!!</body></note>'.! !
+	element := xmlDocument elements first."
 
-!XMLPullParser methodsFor: 'accessing' stamp: 'ess 6/6/2025 07:41:59'!
-context
+	self parse: self exampleString06.
+	element := document element.
+	children := element elementChildren.
 
-	contexts isEmpty ifTrue: [
-		^ self parseError: 'context stack underflow' ].
-	^ contexts first! !
+	element := children third.
+	self
+		assert: element printString
+		equals: '<heading>Reminder</heading>'.
+		
+	self
+		assert: document printString
+		equals: self exampleString06! !
 
-!XMLPullParser methodsFor: 'accessing' stamp: 'ess 6/6/2025 07:44:06'!
-findNamespace: prefix
-	"Lookup namespace by prefix"
-	
-	contexts do: [ :each |
-		(each findNamespaceByPrefix: prefix) ifNotNil: [ :namespace |
-			^ namespace ] ].
-	^ nil! !
+!XmlPullParser methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:29:56'!
+error
+	"notNil if parse error."
+	"Note that parse methods can return an error as well.  The returned error may be transient, merely a result of incomplete input.  This error is permanent and indicates malformed input."
 
-!XMLPullParser methodsFor: 'accessing' stamp: 'ess 11/7/2024 15:24:27'!
+	^ error! !
+
+!XmlPullParser methodsFor: 'accessing' stamp: 'ess 7/2/2025 09:21:08'!
+findNamespace: prefixString
+	"Lookup namespace by prefix."
+
+	^ contexts
+		findNamespaceByPrefix: prefixString! !
+
+!XmlPullParser methodsFor: 'accessing' stamp: 'ess 11/7/2024 15:24:27'!
 readStream
 
 	^ buffer! !
 
-!XMLPullParser methodsFor: 'accessing' stamp: 'ess 11/7/2024 16:26:36'!
+!XmlPullParser methodsFor: 'accessing' stamp: 'ess 11/7/2024 16:26:36'!
 writeStream
 
 	^ buffer! !
 
-!XMLPullParser methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 07:42:24'!
-parseError: aMessageString
+!XmlPullParser methodsFor: 'as yet unclassified' stamp: 'ess 7/1/2025 08:33:09'!
+events
+	"Queue of pending events."
 
-	^ self syntaxError: aMessageString! !
+	^ events! !
 
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 6/6/2025 07:43:02'!
-addComment: aString
+!XmlPullParser methodsFor: 'construction' stamp: 'ess 7/1/2025 10:04:56'!
+addCharacterData: aString
 
-	^ self addEvent: (XMLCommentEvent content: aString)! !
+	self addEvent:
+		(XmlCharacterDataEvent content: aString)! !
 
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 11/7/2024 10:58:37'!
-addEvent: anXMLEvent
+!XmlPullParser methodsFor: 'construction' stamp: 'ess 7/1/2025 09:56:26'!
+addEvent: anXmlEvent
+	"Add new event to pending."
 
-	events addLast: anXMLEvent! !
+	events addLast: anXmlEvent! !
 
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 6/6/2025 07:43:11'!
+!XmlPullParser methodsFor: 'construction' stamp: 'ess 7/1/2025 07:20:25'!
 appendText: aString
 
-	^ self addEvent: (XMLCharacterDataEvent content: aString)! !
+	^ self addEvent: (XmlCharacterDataEvent content: aString)! !
 
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 6/6/2025 07:42:55'!
-endTag: name
+!XmlPullParser methodsFor: 'construction' stamp: 'ess 7/2/2025 09:36:37'!
+endTag: aQualifiedName
 
 	| oldContext |
 
-	"Fix namespace for tag itself"
-	self setNamespace: name.
+	"Fix namespace for tag itself."
+	self fixNamespace: aQualifiedName.
 	
-	"Validate element nesting"
-	self context name ~= name ifTrue: [
-		^ self parseError: 'unclosed element' ].
-	
-	"Pop context"
-	oldContext := contexts removeFirst.
-	
-	"Publish element end event before any namespace end events"
-	self addEvent: (XMLElementEndEvent name: name).
-	
+	"Validate element nesting."
+	oldContext := contexts pop.
+	oldContext name ~= aQualifiedName ifTrue: [
+		^ self parseError: 'Unclosed element' ].
+
+	"Publish element end event before any namespace end events."
+	self addEvent:
+		(XmlElementEndEvent
+			name: aQualifiedName).
 	oldContext namespaces do: [ :each |
-		self addEvent: (XMLNamespaceEndEvent prefix: each prefix) ]! !
+		self addEvent:
+			(XmlNamespaceEndEvent
+				prefix: each prefix) ]! !
 
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 6/6/2025 07:49:36'!
-openContext
-	"Push new context onto stack"
+!XmlPullParser methodsFor: 'construction' stamp: 'ess 7/2/2025 09:30:21'!
+fixAttributeNamespaces: aCollection
 
-	contexts addFirst: XMLContext new! !
+	aCollection do: [ :each |
+		| name |
+		name := each name.
+		"Default namespaces do not apply to attributes."
+		name prefix ifNotNil: [
+			self fixNamespace: name ] ]! !
 
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 6/6/2025 07:49:28'!
-openNamespaces: attributes
+!XmlPullParser methodsFor: 'construction' stamp: 'ess 7/2/2025 09:30:00'!
+fixNamespace: aQualifiedName
+	"Set namespace uri of aQualifiedName according to its prefix."
+
+	aQualifiedName
+		findNamespaceIn: contexts
+		ifAbsent: [
+			self parseError: 'Undefined namespace' ]! !
+
+!XmlPullParser methodsFor: 'construction' stamp: 'ess 7/2/2025 09:32:13'!
+openNamespaces: attributesCollection
+	"Find namespaces in attributesCollection, add to context, and generate events."
 
 	| context |
-	context := self context.
-	attributes do: [ :each |
+	context := contexts top.
+	attributesCollection do: [ :each |
 		each openNamespaceInContext: context ].
 	context namespaces do: [ :each |
 		self addEvent:
-			(XMLNamespaceStartEvent
+			(XmlNamespaceStartEvent
 				prefix: each prefix
 				uri: each uri) ]! !
 
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 6/6/2025 07:40:58'!
-setAttributeNamespaces: attributes
-
-	| name |
-	attributes do: [ :each |
-		name := each name.
-		"Default namespaces do not apply to attributes"
-		name prefix ifNotNil: [
-			self setNamespace: name ] ]! !
-
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 6/6/2025 07:43:36'!
-setNamespace: name
-	"Set namespace uri of name according to prefix"
-	
-	name
-		findNamespaceIn: contexts
-		ifAbsent: [
-			self parseError: 'undefined namespace' ]! !
-
-!XMLPullParser methodsFor: 'construction' stamp: 'ess 6/6/2025 08:10:21'!
-startTag: name withAttributes: attributesCollection
+!XmlPullParser methodsFor: 'construction' stamp: 'ess 7/2/2025 09:31:47'!
+startTag: aQualifiedName withAttributes: aCollection
 
 	| attributes |
 
-	"Push new context corresponding to tag"
-	self openContext.
-	
-	"Ensure all namespaces are in-scope"
-	self openNamespaces: attributesCollection.
-	attributes := attributesCollection reject: [ :each | each isNamespace ].
+	"Push new context corresponding to tag."
+	contexts push.
 
-	"Fix namespace for tag itself"
-	self setNamespace: name.
-	self context name: name.
+	"Ensure all namespaces are in-scope."
+	self openNamespaces: aCollection.
+	attributes := aCollection reject: [ :each | each isNamespace ].
+
+	"Fix namespace for tag itself."
+	self fixNamespace: aQualifiedName.
+	contexts top
+		name: aQualifiedName.
 	
-	"Fix namespaces for attributes"
-	self setAttributeNamespaces: attributes.
+	"Fix namespaces for attributes."
+	self fixAttributeNamespaces: attributes.
 	
-	"Publish the start event"
+	"Publish the start event."
 	self addEvent:
-		(XMLElementStartEvent
-			name: name
-			attributes: attributes)! !
+		(XmlElementStartEvent
+			name: aQualifiedName
+			attributes: aCollection)! !
 
-!XMLPullParser methodsFor: 'initialization' stamp: 'ess 11/11/2024 12:46:13'!
-defaultContext
-
-	^ XMLContext defaultContext! !
-
-!XMLPullParser methodsFor: 'initialization' stamp: 'ess 11/7/2024 16:27:02'!
+!XmlPullParser methodsFor: 'initialization' stamp: 'ess 7/2/2025 09:19:21'!
 initialize
 
 	super initialize.
-	contexts := OrderedCollection with: self defaultContext.
-	events := OrderedCollection new.
-	buffer := StreamBuffer new! !
+	buffer := StreamBuffer new.
+	contexts := XmlContextStack new.
+	events := OrderedCollection new! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:45:48'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:39:56'!
 handlingParseErrorsDo: aBlock
 	"Here we put the parser into an error state."	
 	"If lookahead is nil, do nothing.  We assume that any errors arising in this istuation are artifacts of incomplete input and do not represent actual erros in the data."
 
 	self withSaveDo: [ :restore |
-		[aBlock value]
+		[ aBlock value ]
 			on: Error
 			do: [ :err |
-				lookahead notNil ifTrue: [
+				lookahead ifNotNil: [
+					"There is more input available, so this is a true parse error."
 					error := err message ].
 				restore value.
 				err return: nil ] ]! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:49:17'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 15:58:17'!
 nextEvent
-	"Pull next event from parser"
+	"Pull next input event from parser."
 
 	"Try to parse more of the input if no events are ready."
 	(events isEmpty and: [ error isNil ]) ifTrue: [
 		self readContent ].
 
-	"Return the first of any ready events."
+	"Answer the first of any ready events."
 	events notEmpty ifTrue: [
 		^ events removeFirst ].
 
-	"Return any applicable parse error."
+	"Answer any applicable parse error."
 	error ifNotNil: [
-		^ XMLErrorEvent error: error ].
+		^ XmlErrorEvent message: error ].
 
-	"Return nil to signal need for additional input."
+	"Answer nil to signal need for additional input."
 	^ nil! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:49:54'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:25:10'!
 readAttribute
 
 	| name value |
 	name := self readName.
 	self skipWhitespace.
-	(self match: $=) ifTrue: [
+	value := (self match: $=) ifTrue: [
 		self skipWhitespace.
-		value := self readAttributeValue ].
-	^ XMLAttribute
+		self readAttributeValue ].
+	^ XmlAttribute
 		name: name
 		value: value! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:50:34'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:24:40'!
 readAttributeValue
 
 	| quote content |
-	(lookahead = $" or: [lookahead = $']) ifFalse: [
-		^ self parseError: 'expected quote' ].
+	(lookahead = $" or: [ lookahead = $' ]) ifFalse: [
+		^ self parseError: 'Expected quote' ].
 	quote := self consume.
 	content := String streamContents: [ :stream |
 		[ lookahead isNil or: [ lookahead = quote ] ] whileFalse: [
-			stream nextPut: self readCharacter ] ].
+			stream
+				nextPut: self readCharacter ] ].
 	self expect: quote.
 	^ content! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:53:27'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:31:33'!
 readCData
 
 	| done content |
 	self expectAll: 'CDATA['.
 	done := false.
-	content := String streamContents: [ :stream |
+	content := UnicodeString streamContents: [ :stream |
 		[ done or: [ lookahead isNil ] ] whileFalse: [
 			(self match: $])
 				ifFalse: [
@@ -1026,45 +1078,46 @@ readCData
 										nextPut: $];
 										nextPut: self consume ] ] ] ] ].
 	done ifFalse: [
-		self parseError: 'unterminated CDATA' ].
-	^ self appendText: content! !
+		self parseError: 'Unterminated CDATA' ].
+	^ self addCharacterData: content! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:54:08'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:24:01'!
 readCharacter
-	"Parse single character or escape"
+	"Parse a single character or escape."
 
 	(self match: $<) ifTrue: [  "Illegal in character data"
-		^ self parseError: 'illegal character' ].
+		^ self parseError: 'Illegal character' ].
 	(self match: $&) ifTrue: [
 		^ self readCharacterReference ].
 	^ self consume! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:54:45'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:31:54'!
 readCharacterData
 
 	| content |	
-	content := String streamContents: [ :stream |
+	content := UnicodeString streamContents: [ :stream |
 		[ lookahead isNil or: [ '&<' includes: lookahead ] ] whileFalse: [
 			stream nextPut: self consume ] ].
 	content isEmpty ifTrue: [
-		^ self parseError: 'expected character data' ].
-	^ self appendText: content! !
+		^ self parseError: 'Expected character data' ].
+	^ self addCharacterData: content! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:55:04'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 11:23:32'!
 readCharacterReference
 
-	^ (self match: $#)
-		ifTrue: [
-			self readNumericCharacterReference ]
-		ifFalse: [
-			self readNamedCharacterReference ]! !
+	| answer |
+	answer := (self match: $#)
+		ifTrue: [ self readNumericCharacterReference ]
+		ifFalse: [ self readNamedCharacterReference ].
+	self expect: $;.
+	^ answer! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:14:10'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 12:09:55'!
 readComment
 
 	| done content |
 	done := false.
-	content := String streamContents: [ :stream |
+	content := UnicodeString streamContents: [ :stream |
 		[ done or: [ lookahead isNil ] ] whileFalse: [
 			(self match: $-)
 				ifFalse: [
@@ -1078,9 +1131,11 @@ readComment
 								nextPut: $-;
 								nextPut: self consume ] ] ] ].
 	self expect: $>.
-	^ self addComment: content! !
+	self addEvent:
+		(XmlCommentEvent
+			content: content)! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 07:56:46'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:38:50'!
 readContent
 	"Try to parse available input."
 
@@ -1090,11 +1145,12 @@ readContent
 	self withSaveDo: [ :restore |
 		self handlingParseErrorsDo: [
 			self readNext ].
-		events isEmpty ifTrue: [  "Failure"
+		events isEmpty ifTrue: [
+			"Failed to parse anything of value in the available input."
 			restore value.
 			^ nil ] ]! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 11/27/2024 09:36:51'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 11/27/2024 09:36:51'!
 readEndTag
 
 	| name |
@@ -1103,49 +1159,57 @@ readEndTag
 	self expect: $>.
 	self endTag: name! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:04:58'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:28:17'!
 readMarkup
 
-	(self match: $!!) ifTrue: [ ^ self readMarkupDeclaration ].
-	(self match: $/) ifTrue: [ ^ self readEndTag ].
-	(self match: $?) ifTrue: [ ^ self readProcessingInstruction ].
-	self isNameStartCharacter ifTrue: [ ^ self readStartTag ].
-	^ self parseError: 'unexpected'! !
+	(self match: $!!) ifTrue: [
+		^ self readMarkupDeclaration ].
+	(self match: $/) ifTrue: [
+		^ self readEndTag ].
+	(self match: $?) ifTrue: [
+		^ self readProcessingInstruction ].
+	self isNameStartCharacter ifTrue: [
+		^ self readStartTag ].
+	^ self parseError: 'Unexpected'! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:05:15'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:05:15'!
 readMarkupDeclaration
 
 	(self match: $-) ifTrue: [ ^ self readComment ].
 	(self match: $[) ifTrue: [ ^ self readCData ].
 	^ self parseError: 'unexpected'! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:05:45'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:29:32'!
 readName
-	"Parse qualified name"
+	"Parse qualified name."
 
 	| local prefix |
+	self skipWhitespace.
 	self isNameStartCharacter ifFalse: [
-		^ self parseError: 'expected name start character' ].
+		^ self parseError: 'Expected name start character' ].
 	local := self readNamePart.
 	(self match: $:) ifTrue: [  "Namespace separator"
 		self isNameStartCharacter ifFalse: [
-			^ self parseError: 'expected local name' ].
+			^ self parseError: 'Expected local name' ].
 		prefix := local.
 		local := self readNamePart ].
-	^ XMLQualifiedName
+	^ XmlQualifiedName
 		local: local
 		prefix: prefix! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:06:07'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:20:42'!
 readNamePart
 
 	self isNameStartCharacter ifFalse: [
-		^ self parseError: 'expected name start character' ].
-	^ String streamContents: [:stream |
-		[ self isNameCharacter ] whileTrue: [
-			stream nextPut: self consume ] ]! !
+		^ self parseError: 'Expected name start character' ].
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:07:03'!
+	"Collect valid name characters."
+	^ UnicodeString streamContents: [:stream |
+		[ self isNameCharacter ] whileTrue: [
+			stream
+				nextPut: self consume ] ]! !
+
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:23:35'!
 readNamedCharacterReference
 	"Parse named entity reference."
 
@@ -1166,25 +1230,26 @@ readNamedCharacterReference
 	(self match: $q) ifTrue: [
 		self expectAll: 'uot;'.  "&quot;"
 		^ $" ].
-	^ self parseError: 'illegal entity reference'! !
+	^ self parseError: 'Illegal entity reference'! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:07:38'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 08:14:10'!
 readNext
 	"Parse next item of input."
 
 	lookahead ifNil: [
+		"Need additional input."
 		^ self ].
-	lookahead = Character null ifTrue: [
+	lookahead = `Character null` ifTrue: [
 		^ self parseError: 'Invalid NUL character' ].
 	(self match: $&) ifTrue: [
 		| reference | 
 		reference := self readCharacterReference.
-		self addEvent: (XMLCharacterDataEvent content: reference asString) ].
+		self addCharacterData: reference asString ].
 	(self match: $<) ifTrue: [
 		^ self readMarkup ].
 	self readCharacterData! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 11:34:55'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:23:14'!
 readNumericCharacterReference
 
 	| codepoint |	
@@ -1196,21 +1261,23 @@ readNumericCharacterReference
 		ifFalse: [
 			[ self isDigit ] whileTrue: [
 				codepoint := codepoint * 10 + self consumeDigit ] ].
-	(codepoint between: 0 and: 16r10FFFF) ifFalse: [
-		^ self parseError: 'illegal character reference' ].
-	^ Character codePoint: codepoint! !
+	(Codepoint isMaybeValid: codepoint) ifFalse: [
+		^ self parseError: 'Illegal character reference' ].
+	^ Character
+		codePoint: codepoint! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:09:19'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 09:37:10'!
 readProcessingInstruction
 
-	| target done content |	
+	| target done content |
 	target := self readNamePart.
 	self skipWhitespace.	
 	done := false.
-	content := String streamContents: [ :stream |
+	content := UnicodeString streamContents: [ :stream |
 		[ done or: [ lookahead isNil ] ] whileFalse: [
 			(self match: $?)
 				ifFalse: [
+					"Anything else is a literal."
 					stream nextPut: self consume]
 				ifTrue: [
 					(self match: $>)
@@ -1221,13 +1288,13 @@ readProcessingInstruction
 								nextPut: $?;
 								nextPut: self consume ] ] ] ].
 	done ifFalse: [
-		^ self parseError: 'unterminated processing instruction' ].
+		^ self parseError: 'Unterminated processing instruction' ].
 	self addEvent:
-		(XMLProcessingInstructionEvent
+		(XmlProcessingInstructionEvent
 			target: target
 			content: content)! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:09:53'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:27:09'!
 readStartTag
 
 	| name attrs empty |
@@ -1238,6 +1305,7 @@ readStartTag
 		attrs add: self readAttribute.
 		self skipWhitespace ].
 	empty := self match: $/.
+	self skipWhitespace.
 	lookahead notNil ifTrue: [
 		self expect: $> ].
 	self
@@ -1246,63 +1314,27 @@ readStartTag
 	empty ifTrue: [
 		self endTag: name ]! !
 
-!XMLPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:10:13'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:10:13'!
 skipWhitespace
 
 	[ self isWhitespace ] whileTrue: [
 		self consume ]! !
 
-!XMLPullParser methodsFor: 'testing' stamp: 'ess 6/6/2025 07:46:29'!
+!XmlPullParser methodsFor: 'testing' stamp: 'ess 7/1/2025 16:59:41'!
 isNameCharacter
 
-	| codepoint |
-	lookahead ifNil: [
-		^ false ].
-	self isNameStartCharacter ifTrue: [
-		^ true ].
-	((lookahead = $-
-		or: [ lookahead = $. ])
-		or: [ self isDigit ])
-			ifTrue: [
-				^ true ].
-	codepoint := lookahead codePoint.
-	^ (codepoint = 16rB7
-		or: [ codepoint between: 16r300 and: 16r36F ])
-		or: [ codepoint between: 16r203F and: 16r2040 ]! !
+	^ lookahead notNil and: [
+		Xml nameCharacter
+			includes: lookahead codePoint ]! !
 
-!XMLPullParser methodsFor: 'testing' stamp: 'ess 6/6/2025 08:13:11'!
+!XmlPullParser methodsFor: 'testing' stamp: 'ess 7/2/2025 13:47:39'!
 isNameStartCharacter
 
-	| codepoint |
-	lookahead ifNil: [
-		^ false ].
-	(((lookahead = $_)
-		or: [ $A <= lookahead & (lookahead <= $Z) ])
-		or: [ $a <= lookahead & (lookahead <= $z) ])
-			ifTrue: [
-				^ true ].
-	codepoint := lookahead codePoint.
-	#(	(16rC0		16rD6)
-		(16rD8		16rF6)
-		(16rF8		16r2FF)
-		(16r370		16r37D)
-		(16r37F		16r1FFF)
-		(16r200C	16r200D)
-		(16r2070	16r218F)
-		(16r2C00	16r2FEF)
-		(16r3001	16rD7FF)
-		(16rF900	16rFDCF)
-		(16rFDF0	16rFFFD)
-		(16r10000	16rEFFFF)
-	) do: [ :each |
-		(codepoint
-			between: each first
-			and: each second)
-				ifTrue: [
-					^ true ] ].
-	^ false! !
+	^ lookahead notNil and: [ lookahead = $: or: [
+		Xml nameStartCharacter
+			includes: lookahead codePoint ] ]! !
 
-!XMLPullParser methodsFor: 'testing' stamp: 'ess 6/6/2025 08:13:21'!
+!XmlPullParser methodsFor: 'testing' stamp: 'ess 6/6/2025 08:13:21'!
 isValidCodepoint: anInteger
 	"Exclude surrogate blocks, 16rFFFE, and 16rFFFF"
 	
@@ -1314,7 +1346,7 @@ isValidCodepoint: anInteger
 		or: [ anInteger between: 16rE000 and: 16rFFFD ])
 		or: [ anInteger between: 16r10000 and: 16r10FFFF ]! !
 
-!XMLPullParser methodsFor: 'testing' stamp: 'ess 6/6/2025 08:13:31'!
+!XmlPullParser methodsFor: 'testing' stamp: 'ess 6/6/2025 08:13:31'!
 isWhitespace
 	"Tab, Newline, Carriage Return, or Space"
 
@@ -1357,11 +1389,11 @@ grow
 	buffer := buffer
 		grownTo: buffer size * 2! !
 
-!StreamBuffer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 08:45:10'!
+!StreamBuffer methodsFor: 'as yet unclassified' stamp: 'ess 7/2/2025 11:31:00'!
 initialize
 
 	super initialize.
-	buffer := String new: 1024.
+	buffer := UnicodeString new: 1024.
 	writePosition := 0.
 	readPosition := 0! !
 
@@ -1406,624 +1438,937 @@ shiftDown
 	readPosition := 0.
 	writePosition := writePosition - usedSize! !
 
-!WeakReference methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 16:24:40'!
-setValue: aValue
-
-	self value: aValue.
-	^ self! !
-
-!WeakReference methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 16:22:31'!
+!WeakReference methodsFor: 'accessing' stamp: 'ess 11/11/2024 16:22:31'!
 value
 
 	^ self at: 1! !
 
-!WeakReference methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 16:22:18'!
+!WeakReference methodsFor: 'accessing' stamp: 'ess 11/11/2024 16:22:18'!
 value: aValue
 
 	self
 		at: 1
 		put: aValue! !
 
-!WeakReference class methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 16:21:54'!
+!WeakReference methodsFor: 'private' stamp: 'ess 11/11/2024 16:24:40'!
+setValue: aValue
+
+	self value: aValue.
+	^ self! !
+
+!WeakReference class methodsFor: 'instance creation' stamp: 'ess 11/11/2024 16:21:54'!
 new
 
 	^ self new: 1! !
 
-!WeakReference class methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 16:24:25'!
+!WeakReference class methodsFor: 'instance creation' stamp: 'ess 11/11/2024 16:24:25'!
 with: aValue
 
 	^ self new
 		setValue: aValue! !
 
-!XML class methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:04:03'!
-escapeAttribute: attributeValue
-	"Escape characters within XML attributes."
+!XmlContext methodsFor: 'accessing' stamp: 'ess 7/1/2025 12:51:57'!
+name
+	"Qualified name of element defining this context."
 
-	| characterEscapes escape |
-	attributeValue isEmptyOrNil ifTrue: [
-		^ attributeValue ].
-	characterEscapes := {
+	^ name! !
+
+!XmlContext methodsFor: 'accessing' stamp: 'ess 7/2/2025 08:29:35'!
+name: aString
+
+	name := aString! !
+
+!XmlContext methodsFor: 'accessing' stamp: 'ess 7/1/2025 12:51:41'!
+namespaces
+	"Collection of namespaces defined in this context."
+
+	^ namespaces! !
+
+!XmlContext methodsFor: 'initialization' stamp: 'ess 7/2/2025 13:45:31'!
+initialize
+
+	super initialize.
+	namespaces := OrderedCollection new! !
+
+!XmlContext methodsFor: 'namespaces' stamp: 'ess 7/1/2025 12:52:18'!
+addNamespace: anXmlNamespace
+
+	namespaces
+		add: anXmlNamespace! !
+
+!XmlContext methodsFor: 'namespaces' stamp: 'ess 7/2/2025 09:02:55'!
+addNamespaces: aCollection
+
+	aCollection ifNil: [ ^ self ].
+	aCollection do: [ :each |
+		self addNamespace: each ]! !
+
+!XmlContext methodsFor: 'namespaces' stamp: 'ess 7/1/2025 15:34:04'!
+findNamespace: aUnaryBlock
+
+	^ namespaces
+		detect: aUnaryBlock
+		ifNone: [ nil ]! !
+
+!XmlContext methodsFor: 'namespaces' stamp: 'ess 7/2/2025 09:11:57'!
+openNamespacePrefix: prefixString uri: uriString
+
+	self addNamespace:
+		(XmlNamespace
+			prefix: prefixString
+			uri: uriString)! !
+
+!XmlContext methodsFor: 'private' stamp: 'ess 7/2/2025 09:03:15'!
+setName: aQualifiedName namespaces: aCollection
+
+	name := aQualifiedName.
+	self addNamespaces: aCollection.
+	^ self! !
+
+!XmlContext class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 12:58:23'!
+defaultXmlContext
+	"Contains reserved namespaces."
+
+	^ self namespaces: Xml reservedNamespaces! !
+
+!XmlContext class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 12:58:54'!
+name: aQualifiedName
+
+	^ self
+		name: aQualifiedName
+		namespaces: nil! !
+
+!XmlContext class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 12:58:42'!
+name: aQualifiedName namespaces: aCollection
+
+	^ self new
+		setName: aQualifiedName
+		namespaces: aCollection! !
+
+!XmlContext class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 12:59:01'!
+namespaces: aCollection
+
+	^ self
+		name: nil
+		namespaces: aCollection! !
+
+!XmlContextStack methodsFor: 'context' stamp: 'ess 7/1/2025 15:35:09'!
+findNamespace: aUnaryBlock
+
+	contexts reverseDo: [ :each |
+		(each findNamespace: aUnaryBlock)
+			ifNotNil: [ :it | ^ it ] ].
+	^ nil! !
+
+!XmlContextStack methodsFor: 'context' stamp: 'ess 7/1/2025 15:35:23'!
+findNamespaceByPrefix: aString
+
+	^ self findNamespace: [ :each | each prefix = aString ]! !
+
+!XmlContextStack methodsFor: 'context' stamp: 'ess 7/1/2025 15:35:27'!
+findNamespaceByUri: aString
+
+	^ self findNamespace: [ :each | each uri = aString ]! !
+
+!XmlContextStack methodsFor: 'context' stamp: 'ess 7/2/2025 10:57:55'!
+includesNamespace: anXmlNamespace
+
+	^ (self findNamespace: [ :each | each = anXmlNamespace ])
+		notNil! !
+
+!XmlContextStack methodsFor: 'context' stamp: 'ess 7/2/2025 09:26:48'!
+pop
+
+	^ contexts removeLast! !
+
+!XmlContextStack methodsFor: 'context' stamp: 'ess 7/2/2025 09:21:45'!
+push
+
+	contexts
+		addLast: XmlContext new! !
+
+!XmlContextStack methodsFor: 'context' stamp: 'ess 7/2/2025 09:05:27'!
+push: namespacesCollection
+
+	contexts addLast:
+		(XmlContext
+			namespaces: namespacesCollection)! !
+
+!XmlContextStack methodsFor: 'context' stamp: 'ess 7/2/2025 09:26:56'!
+top
+
+	^ contexts last! !
+
+!XmlContextStack methodsFor: 'initialization' stamp: 'ess 7/2/2025 09:05:04'!
+initialize
+
+	super initialize.
+	contexts := OrderedCollection
+		with: XmlContext defaultXmlContext! !
+
+!Xml class methodsFor: 'as yet unclassified' stamp: 'ess 7/1/2025 15:26:53'!
+escape: aString using: aDictionary
+
+	aString isEmptyOrNil ifTrue: [ ^ aString ].
+	^ UnicodeString streamContents: [ :stream |
+		aString do: [ :each |
+			| escape |
+			escape := aDictionary
+				at: each
+				ifAbsent: [ nil ].
+			escape
+				ifNotNil: [ stream nextPutAll: escape ]
+				ifNil: [ stream nextPut: each ] ] ]! !
+
+!Xml class methodsFor: 'as yet unclassified' stamp: 'ess 7/1/2025 15:30:54'!
+escapeAttribute: attributeValue
+	"Escape characters within XML attribute values."
+
+	^ self
+		escape: attributeValue
+		using: self attributeEscapes! !
+
+!Xml class methodsFor: 'as yet unclassified' stamp: 'ess 7/1/2025 15:28:38'!
+escapeText: textContent
+	"Escape characters within XML text."
+
+	^ self
+		escape: textContent
+		using: self textEscapes! !
+
+!Xml class methodsFor: 'as yet unclassified' stamp: 'ess 7/2/2025 11:05:06'!
+parse: aStringOrStream
+
+	^ XmlBuilder
+		parse: aStringOrStream! !
+
+!Xml class methodsFor: 'constants' stamp: 'ess 7/1/2025 15:29:36'!
+attributeEscapes
+	"Characters that need to be escaped within XML attributes."
+
+	^ `{
 		Character tab	-> '&#x9;' .
 		Character lf		-> '&#xA;' .
 		Character cr	-> '&#xD;' .
 		$"				-> '&quot;' .
 		$&				-> '&amp;' .
 		$<				-> '&lt;'
-	} asDictionary.
-	^ String streamContents: [ :stream |
-		attributeValue do: [ :each |
-			escape := characterEscapes
-				at: each
-				ifAbsent: [ nil ].
-			escape
-				ifNotNil: [
-					stream nextPutAll: escape ]
-				ifNil: [
-					stream nextPut: each ] ] ]! !
+	} asDictionary`! !
 
-!XML class methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:05:14'!
-escapeContent: textContent
-	"Escape characters within XML text."
+!Xml class methodsFor: 'constants' stamp: 'ess 7/2/2025 12:08:26'!
+calculateNameCharacter
 
-	| characterEscapes escape |
-	textContent isEmptyOrNil ifTrue: [
-		^ textContent ].
-	characterEscapes := {
+	| ranges bitmap |
+	ranges := #(
+		(16r2D		16r2E)	"_ and ."
+		(16r30		16r39)	"0 to 9"
+		(16rB7		16rB7)
+		(16r300		16r36F)
+		(16r203F	16r2040)
+	).
+	bitmap := UnicodeBitmap new.
+	ranges do: [ :each |
+		bitmap
+			addAll: (each first to: each last) ].
+	^ bitmap | self nameStartCharacter! !
+
+!Xml class methodsFor: 'constants' stamp: 'ess 7/2/2025 13:46:56'!
+calculateNameStartCharacter
+
+	| ranges bitmap |
+	ranges := #(
+		(16r41		16r5A)	"A to Z"
+		(16r5F		16r5F)	"_"
+		(16r61		16r7A)	"a to z"
+		(16rC0		16rD6)
+		(16rD8		16rF6)
+		(16rF8		16r2FF)
+		(16r370		16r37D)
+		(16r37F		16r1FFF)
+		(16r200C	16r200D)
+		(16r2070	16r218F)
+		(16r2C00	16r2FEF)
+		(16r3001	16rD7FF)
+		(16rF900	16rFDCF)
+		(16rFDF0	16rFFFD)
+		(16r10000	16rEFFFF)
+	).
+	bitmap := UnicodeBitmap new.
+	ranges do: [ :each |
+		bitmap
+			addAll: (each first to: each last) ].
+	^ bitmap! !
+
+!Xml class methodsFor: 'constants' stamp: 'ess 7/1/2025 16:57:41'!
+nameCharacter
+
+	^ nameCharacter ifNil: [
+		nameCharacter := self calculateNameCharacter ]! !
+
+!Xml class methodsFor: 'constants' stamp: 'ess 7/1/2025 16:54:29'!
+nameStartCharacter
+
+	^ nameStartCharacter ifNil: [
+		nameStartCharacter := self calculateNameStartCharacter ]! !
+
+!Xml class methodsFor: 'constants' stamp: 'ess 7/1/2025 12:57:51'!
+reservedNamespaces
+
+	^ {	(XmlNamespace
+			prefix: 'xml'
+			uri: 'http://www.w3.org/XML/1998/namespace') .
+		(XmlNamespace
+			prefix: 'xmlns'
+			uri: 'http://www.w3.org/2000/xmlns/') }! !
+
+!Xml class methodsFor: 'constants' stamp: 'ess 7/1/2025 15:28:27'!
+textEscapes
+	"Characters that need to be escaped within XML text."
+
+	^ `{
 		Character cr	-> '&#xD;' .
 		$&				-> '&amp;' .
 		$<				-> '&lt;' .
 		$>				-> '&gt;'
-	} asDictionary.
-	^ String streamContents: [ :stream |
-		textContent do: [ :each |
-			escape := characterEscapes
-				at: each
-				ifAbsent: [ nil ].
-			escape
-				ifNotNil: [
-					stream nextPutAll: escape ]
-				ifNil: [
-					stream nextPut: each ] ] ]! !
+	} asDictionary`! !
 
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:05:25'!
-addAttribute: anAttribute
+!XmlBuilder methodsFor: 'as yet unclassified' stamp: 'ess 7/2/2025 11:17:16'!
+parse: aStringOrStream
 
-	elements first
-		addAttribute: anAttribute! !
+	| input parser event |
+	input := aStringOrStream isString
+		ifTrue: [ aStringOrStream ]
+		ifFalse: [ aStringOrStream content ].
+	parser := XmlPullParser new.
+	parser writeStream
+		nextPutAll: input.
+	[ (event := parser nextEvent) notNil ] whileTrue: [
+		self dispatchEvent: event ].
+	^ root! !
 
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:05:40'!
-addText: textContent
-	"Add text to the current element"
-	"If the last child of the current element is already a text node, we append the new text to the existing node.  Otherwise we create a new text node and add it as the last child."
+!XmlBuilder methodsFor: 'initialization' stamp: 'ess 7/1/2025 08:55:51'!
+initialize
 
-	elements first
-		appendText: textContent! !
+	super initialize.
+	namespaces := OrderedCollection new.
+	elements := OrderedCollection new! !
 
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:06:47'!
-elements
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:53:15'!
+dispatchEvent: anXmlEvent
+	"Forward to the appropriate handler based on the type of the event."
 
-	^ elements! !
+	anXmlEvent
+		dispatchEvent: self! !
 
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:07:11'!
-elements: aCollection
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/2/2025 11:12:29'!
+handleCharacterData: aCharacterDataEvent
+	"Append text to the current element."
 
-	elements := aCollection! !
+	elements isEmpty ifTrue: [ ^ self ].
+	elements last
+		appendText: aCharacterDataEvent content! !
 
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:06:17'!
-endElement: qualifiedName
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/2/2025 12:14:48'!
+handleComment: aCommentEvent
+
+	| comment |
+	comment := XmlComment
+		content: aCommentEvent content.
+	elements notEmpty ifTrue: [
+		elements last
+			addChild: comment ]! !
+
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/1/2025 11:40:13'!
+handleElementEnd: anElementEndEvent
 	"Pop an element off the stack."
 	"We assume that elements nest, so we also remove any elements above this one in the stack.  If the element is not found (it may have been removed earlier, by the nesting rule), nothing is done and it is not an error."
 
 	| index |	
-	index := elements findFirst: [ :each | each name = qualifiedName ].
-	index isZero ifTrue: [
-		^ self ].
-	elements := elements
-		copyFrom: index + 1
-		to: elements size! !
+	index := elements
+		findLast: [ :each | each name = anElementEndEvent name ].
+	index > 0 ifTrue: [
+		elements := elements
+			copyFrom: 1
+			to: index - 1 ]! !
 
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:06:38'!
-endNamespace: prefixString
-	"Pop namespace off stack"
-	"We assume that namespaces nest, so we also remove any namespaces above this one in the stack.  If the namespace is not found (it may have been removed earlier, by the nesting rule), nothing is done and it is not on error."
-
-	| index |	
-	index := namespaces findFirst: [ :each | each prefix = prefixString ].
-	index isZero ifTrue: [
-		^ self ].
-	namespaces := namespaces
-		copyFrom: index + 1
-		to: namespaces size! !
-
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:06:59'!
-namespaces
-
-	^ namespaces! !
-
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:07:17'!
-namespaces: aCollection
-
-	namespaces := aCollection! !
-
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:07:30'!
-pushNamespace: prefixString uri: namespaceUri
-
-	^ namespaces addFirst:
-		(XMLNamespace
-			prefix: prefixString
-			uri: namespaceUri)! !
-
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:07:35'!
-root
-
-	^ root! !
-
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:07:40'!
-root: anObject
-
-	root := anObject! !
-
-!XMLBuilder methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:08:13'!
-startElement: qualifiedName
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/2/2025 11:17:08'!
+handleElementStart: anElementStartEvent
 	"Open a new element, making it a child of the current element, and push the new element onto the stack."
 
 	| element |
-	element := XMLElement name: qualifiedName.
-	namespaces do: [ :each |
+
+	"Create a new element."
+	element := XmlElement
+		name: anElementStartEvent name
+		attributes: anElementStartEvent attributes.
+
+	"Attach all current namespaces."
+	namespaces reverseDo: [ :each |
+		"Keeping only the newest namespace with a given prefix.  Older namespaces are shadowed."
 		element namespaces
 			detect: [ :ns | ns prefix = each prefix ]
 			ifNone: [
-				element namespaces add: each ] ].
+				element namespaces
+					addFirst: each ] ].
+
+	"Make it a child of the current element."
 	elements notEmpty ifTrue: [
-		elements first appendChild: element ].
-	elements addFirst: element! !
+		elements last
+			addChild: element ].
 
-!XMLContext methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:10:22'!
-name
-	"Name of defining element"
+	"Make the new element current."
+	elements addLast: element.
 
-	^ name! !
+	root ifNil: [
+		root := element ]! !
 
-!XMLContext methodsFor: 'accessing' stamp: 'ess 11/7/2024 15:50:30'!
-name: aQualifiedName
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/1/2025 11:53:31'!
+handleError: anErrorEvent
 
-	name := aQualifiedName! !
+	^ self error: anErrorEvent message! !
 
-!XMLContext methodsFor: 'accessing' stamp: 'ess 11/7/2024 15:12:10'!
-namespaces
-	"Collection of defined namespaces"
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:48:42'!
+handleEvent: anXmlEvent
 
-	^ namespaces! !
-
-!XMLContext methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:10:42'!
-namespaces: aCollection
-
-	namespaces := aCollection! !
-
-!XMLContext methodsFor: 'as yet unclassified' stamp: 'ess 11/7/2024 15:42:05'!
-addNamespace: aNamespace
-
-	namespaces add: aNamespace! !
-
-!XMLContext methodsFor: 'as yet unclassified' stamp: 'ess 11/7/2024 16:55:21'!
-findNamespaceByPrefix: aPrefixStringOrNil
-	"Lookup namespace by prefix"
-
-	^ namespaces
-		detect: [ :each | each prefix = aPrefixStringOrNil ]
-		ifNone: [ nil ]! !
-
-!XMLContext methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:09:55'!
-openNamespace: aPrefixStringOrNil uri: aUri
-
-	self addNamespace:
-		(XMLNamespace
-			prefix: aPrefixStringOrNil
-			uri: aUri)! !
-
-!XMLContext methodsFor: 'initialization' stamp: 'ess 6/6/2025 10:09:44'!
-initialize
-
-	super initialize.
-	namespaces := OrderedCollection new! !
-
-!XMLContext methodsFor: 'private' stamp: 'ess 11/7/2024 11:34:48'!
-setName: aQualifiedName
-
-	name := aQualifiedName.
 	^ self! !
 
-!XMLContext methodsFor: 'private' stamp: 'ess 11/11/2024 14:04:57'!
-setNamespaces: aCollection
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/1/2025 11:47:25'!
+handleNamespaceEnd: aNamespaceEndEvent
+	"Pop namespace off stack"
+	"We assume that namespaces nest, so we also remove any namespaces above this one in the stack.  If the namespace is not found (it may have been removed earlier, by the nesting rule), nothing is done and it is not on error."
 
-	namespaces := aCollection.
-	^ self! !
+	| index |
+	index := namespaces
+		findLast: [ :each | each prefix = aNamespaceEndEvent prefix ].
+	index > 0 ifTrue: [
+		namespaces := namespaces
+			copyFrom: 1
+			to: index - 1 ]! !
 
-!XMLContext class methodsFor: 'instance creation' stamp: 'ess 11/11/2024 14:05:38'!
-defaultContext
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/1/2025 11:04:23'!
+handleNamespaceStart: aNamespaceStartEvent
+	"Push a new namespace onto the stack."
 
-	^ self defaultXmlContext! !
+	^ namespaces addLast:
+		(XmlNamespace
+			prefix: aNamespaceStartEvent prefix
+			uri: aNamespaceStartEvent uri)! !
 
-!XMLContext class methodsFor: 'instance creation' stamp: 'ess 6/6/2025 10:09:16'!
-defaultXmlContext
-	"Contains reserved namespaces."
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/2/2025 12:40:43'!
+handleProcessingInstruction: aProcessingInstructionEvent
 
-	| context |
-	context := self new.
-	context addNamespace:
-		(XMLNamespace
-			prefix: 'xml'
-			uri: 'http://www.w3.org/XML/1998/namespace').
-	context addNamespace:
-		(XMLNamespace
-			prefix: 'xmlns'
-			uri: 'http://www.w3.org/2000/xmlns/').
-	^ context! !
+	| pi doc |
+	pi := XmlProcessingInstruction
+		target: aProcessingInstructionEvent target
+		content: aProcessingInstructionEvent content.
+	elements notEmpty ifTrue: [
+		"Any PI occurring within the document is just another node."
+		^ elements last
+			addChild: pi ].
+	root ifNotNil: [ ^ self ].
 
-!XMLContext class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 11:34:28'!
-name: aQualifiedName
+	"A PI ocurring before element may be the document prolog."
+	pi target = 'xml' ifFalse: [ ^ self ].
+	doc := XmlDocument prolog: pi.
+	elements addLast: doc.
+	root := doc! !
+
+!XmlBuilder class methodsFor: 'as yet unclassified' stamp: 'ess 7/1/2025 11:53:15'!
+parse: aStringOrStream
 
 	^ self new
-		setName: aQualifiedName! !
+		parse: aStringOrStream! !
 
-!XMLContext class methodsFor: 'instance creation' stamp: 'ess 11/11/2024 14:04:41'!
-namespaces: aCollection
+!XmlEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:44:47'!
+dispatchEvent: anXmlBuilder
 
-	^ self new
-		setNamespaces: aCollection! !
+	anXmlBuilder
+		handleEvent: self! !
 
-!XMLContext class methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:08:48'!
-findNamespace: prefix in: aContextStack ifAbsent: exceptionBlock
-
-	aContextStack do: [ :each |
-		(each findNamespaceByPrefix: prefix) ifNotNil: [ :namespace |
-			^ namespace ] ].
-	exceptionBlock value! !
-
-!XMLContextStack methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:12:47'!
-defaultContext
-
-	^ XMLContext defaultXmlContext! !
-
-!XMLContextStack methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:11:18'!
-findNamespace: aUnaryBlock
-
-	contexts do: [ :eachContext |
-		eachContext do: [ :eachNamespace |
-			(aUnaryBlock value: eachNamespace) ifTrue: [
-				^ eachNamespace ] ] ].
-	^ nil! !
-
-!XMLContextStack methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:16:42'!
-findNamespaceByPrefix: namespacePrefix
-
-	^ self findNamespace: [ :each | each prefix = namespacePrefix ]! !
-
-!XMLContextStack methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:16:59'!
-findNamespaceByUri: namespaceUri
-
-	^ self findNamespace: [ :each | each uri = namespaceUri ]! !
-
-!XMLContextStack methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:16:21'!
-includesNamespace: xmlNamespace
-
-	^ self findNamespace: [ :each | each = xmlNamespace ]! !
-
-!XMLContextStack methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:11:39'!
-initialize
-
-	super initialize.
-	contexts := OrderedCollection
-		with: self defaultContext! !
-
-!XMLContextStack methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:11:33'!
-pop
-
-	contexts removeFirst! !
-
-!XMLContextStack methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:12:07'!
-push: namespaces
-
-	contexts addFirst: (XMLContext namespaces: namespaces)! !
-
-!XMLCharacterDataEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:12:12'!
+!XmlCharacterDataEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:12:12'!
 content
 
 	^ content! !
 
-!XMLCharacterDataEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:12:22'!
-content: aString
+!XmlCharacterDataEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:51:53'!
+dispatchEvent: anXmlBuilder
 
-	content := aString! !
+	anXmlBuilder
+		handleCharacterData: self! !
 
-!XMLCharacterDataEvent methodsFor: 'private' stamp: 'ess 6/6/2025 10:12:32'!
+!XmlCharacterDataEvent methodsFor: 'private' stamp: 'ess 6/6/2025 10:12:32'!
 setContent: aString
 
 	content := aString.
 	^ self! !
 
-!XMLCharacterDataEvent class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 16:51:12'!
+!XmlCharacterDataEvent class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 16:51:12'!
 content: aText
 
 	^ self new
 		setContent: aText! !
 
-!XMLCommentEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:12:43'!
+!XmlCommentEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:12:43'!
 content
 
 	^ content! !
 
-!XMLCommentEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:12:53'!
-content: aString
+!XmlCommentEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:52:12'!
+dispatchEvent: anXmlBuilder
 
-	content := aString! !
+	anXmlBuilder
+		handleComment: self! !
 
-!XMLElementEndEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:13:08'!
+!XmlElementEndEvent methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:25:34'!
+name
+
+	^ name! !
+
+!XmlElementEndEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:52:35'!
+dispatchEvent: anXmlBuilder
+
+	anXmlBuilder
+		handleElementEnd: self! !
+
+!XmlElementEndEvent methodsFor: 'private' stamp: 'ess 7/1/2025 10:09:04'!
+setName: aString
+
+	name := aString.
+	^ self! !
+
+!XmlElementEndEvent class methodsFor: 'as yet unclassified' stamp: 'ess 7/1/2025 10:08:49'!
 name: aQualifiedName
 
-	name := aQualifiedName! !
+	^ self new
+		setName: aQualifiedName! !
 
-!XMLElementStartEvent methodsFor: 'private' stamp: 'ess 11/7/2024 16:57:36'!
+!XmlElementStartEvent methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:26:30'!
+attributes
+
+	^ attributes! !
+
+!XmlElementStartEvent methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:25:43'!
+name
+
+	^ name! !
+
+!XmlElementStartEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:52:50'!
+dispatchEvent: anXmlBuilder
+
+	anXmlBuilder
+		handleElementStart: self! !
+
+!XmlElementStartEvent methodsFor: 'private' stamp: 'ess 11/7/2024 16:57:36'!
 setName: aQualifiedName attributes: anAttributesCollection
 
 	name := aQualifiedName.
 	attributes := anAttributesCollection.
 	^ self! !
 
-!XMLElementStartEvent methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:26:30'!
-attributes
-
-	^ attributes! !
-
-!XMLElementStartEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:13:35'!
-attributes: aCollection
-
-	attributes := aCollection! !
-
-!XMLElementStartEvent methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:25:43'!
-name
-
-	^ name! !
-
-!XMLElementStartEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:13:20'!
-name: aQualifiedName
-
-	name := aQualifiedName! !
-
-!XMLElementStartEvent class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 16:57:03'!
+!XmlElementStartEvent class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 16:57:03'!
 name: aQualifiedName attributes: anAttributesCollection
 
 	^ self new
 		setName: aQualifiedName
 		attributes: anAttributesCollection! !
 
-!XMLErrorEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:13:41'!
+!XmlErrorEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:13:41'!
 message
 
 	^ message! !
 
-!XMLErrorEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:13:50'!
+!XmlErrorEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:53:03'!
+dispatchEvent: anXmlBuilder
+
+	anXmlBuilder
+		handleError: self! !
+
+!XmlErrorEvent methodsFor: 'private' stamp: 'ess 7/1/2025 09:55:57'!
+setMessage: aString
+
+	message := aString.
+	^ self! !
+
+!XmlErrorEvent class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 09:55:37'!
 message: aString
 
-	message := aString! !
+	^ self new
+		setMessage: aString! !
 
-!XMLNamespaceEndEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:13:59'!
+!XmlNamespaceEndEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:13:59'!
 prefix
 
 	^ prefix! !
 
-!XMLNamespaceEndEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:07'!
+!XmlNamespaceEndEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:53:44'!
+dispatchEvent: anXmlBuilder
+
+	anXmlBuilder
+		handleNamespaceEnd: self! !
+
+!XmlNamespaceEndEvent methodsFor: 'private' stamp: 'ess 7/1/2025 10:01:36'!
+setPrefix: aString
+
+	prefix := aString.
+	^ self! !
+
+!XmlNamespaceEndEvent class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 10:01:19'!
 prefix: aString
 
-	prefix := aString! !
+	^ self new
+		setPrefix: aString! !
 
-!XMLNamespaceStartEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:38'!
+!XmlNamespaceStartEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:38'!
 prefix
 
 	^ prefix! !
 
-!XMLNamespaceStartEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:48'!
-prefix: aStringOrNil
-
-	prefix := aStringOrNil! !
-
-!XMLNamespaceStartEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:24'!
+!XmlNamespaceStartEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:24'!
 uri
 
 	^ uri! !
 
-!XMLNamespaceStartEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:33'!
-uri: aString
+!XmlNamespaceStartEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:53:57'!
+dispatchEvent: anXmlBuilder
 
-	uri := aString! !
+	anXmlBuilder
+		handleNamespaceStart: self! !
 
-!XMLNamespaceStartEvent methodsFor: 'private' stamp: 'ess 11/8/2024 15:17:57'!
+!XmlNamespaceStartEvent methodsFor: 'private' stamp: 'ess 11/8/2024 15:17:57'!
 setPrefix: aStringOrNil uri: aUri
 
 	prefix := aStringOrNil.
 	uri := aUri.
 	^ self! !
 
-!XMLNamespaceStartEvent class methodsFor: 'instance creation' stamp: 'ess 11/8/2024 15:18:04'!
+!XmlNamespaceStartEvent class methodsFor: 'instance creation' stamp: 'ess 11/8/2024 15:18:04'!
 prefix: aStringOrNil uri: aUri
 
 	^ self new
 		setPrefix: aStringOrNil
 		uri: aUri! !
 
-!XMLProcessingInstructionEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:15:15'!
+!XmlProcessingInstructionEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:15:15'!
 content
 
 	^ content! !
 
-!XMLProcessingInstructionEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:15:20'!
-content: anObject
-
-	content := anObject! !
-
-!XMLProcessingInstructionEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:55'!
+!XmlProcessingInstructionEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:14:55'!
 target
 
 	^ target! !
 
-!XMLProcessingInstructionEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:15:03'!
-target: anObject
+!XmlProcessingInstructionEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:54:16'!
+dispatchEvent: anXmlBuilder
 
-	target := anObject! !
+	anXmlBuilder
+		handleProcessingInstruction: self! !
 
-!XMLProcessingInstructionEvent methodsFor: 'private' stamp: 'ess 11/7/2024 17:30:13'!
+!XmlProcessingInstructionEvent methodsFor: 'private' stamp: 'ess 11/7/2024 17:30:13'!
 setTarget: targetName content: aString
 
 	target := targetName.
 	content := aString.
 	^ self! !
 
-!XMLProcessingInstructionEvent class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 17:29:49'!
+!XmlProcessingInstructionEvent class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 17:29:49'!
 target: targetName content: aString
 
 	^ self new
 		setTarget: targetName
 		content: aString! !
 
-!XMLNode methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:15:38'!
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:43:34'!
+children
+
+	^ #()! !
+
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:18:46'!
+elementChildren
+
+	^ self children
+		select: [ :each | each isElement ]! !
+
+!XmlNode methodsFor: 'accessing' stamp: 'ess 11/11/2024 16:25:32'!
+parent
+
+	^ parent value! !
+
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/1/2025 13:04:31'!
+parent: anXmlElement
+
+	parent value: anXmlElement! !
+
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:48:21'!
+string
+
+	self children isEmpty
+		ifTrue: [ ^ nil ].
+	^ UnicodeString streamContents: [ :stream |
+		self children do: [ :each |
+			each string ifNotNil: [ :it |
+				stream
+					nextPutAll: it ] ] ]! !
+
+!XmlNode methodsFor: 'initialization' stamp: 'ess 6/6/2025 10:15:38'!
 initialize
 
 	super initialize.
 	parent := WeakReference new! !
 
-!XMLNode methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 12:08:49'!
+!XmlNode methodsFor: 'printing' stamp: 'ess 7/2/2025 09:49:24'!
+printOn: aStream
+
+	self serializeTo:
+		(XmlSerializer on: aStream)! !
+
+!XmlNode methodsFor: 'serialization' stamp: 'ess 7/1/2025 13:03:18'!
+serializeTo: anXmlSerializer
+
+	^ self! !
+
+!XmlNode methodsFor: 'testing' stamp: 'ess 7/1/2025 08:43:54'!
+isElement
+
+	^ false! !
+
+!XmlNode methodsFor: 'testing' stamp: 'ess 11/11/2024 12:08:49'!
 isTextNode
 
 	^ false! !
 
-!XMLNode methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 16:25:32'!
-parent
-
-	^ parent value! !
-
-!XMLNode methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 16:25:51'!
-parent: xmlElement
-
-	parent value: xmlElement! !
-
-!XMLNode methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 13:46:59'!
-serializeTo: anXmlSerializer! !
-
-!XMLAttribute methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:19:41'!
+!XmlAttribute methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:19:41'!
 name
 
 	^ name! !
 
-!XMLAttribute methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:16:41'!
-name: aQualifiedName
+!XmlAttribute methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:45:24'!
+string
 
-	name := aQualifiedName! !
+	^ value! !
 
-!XMLAttribute methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:19:45'!
+!XmlAttribute methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:19:45'!
 value
 
 	^ value! !
 
-!XMLAttribute methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:16:53'!
-value: aString
-
-	value := aString! !
-
-!XMLAttribute methodsFor: 'as yet unclassified' stamp: 'ess 11/7/2024 15:34:44'!
+!XmlAttribute methodsFor: 'as yet unclassified' stamp: 'ess 7/2/2025 09:10:36'!
 isNamespace
-	"Does attribute declare a namespace?"
-	
-	^ name prefix
-		ifNotNil: [ name prefix = 'xmlns' ]  "Explicit namespace"
-		ifNil: [ name local = 'xmlns' ]  "Default namespace"! !
+	"Does this attribute declare a namespace?"
 
-!XMLAttribute methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:17:28'!
+	^ name prefix
+		ifNotNil: [ name prefix = 'xmlns'  "Explicit namespace" ]
+		ifNil: [ name local = 'xmlns'  "Default namespace" ]! !
+
+!XmlAttribute methodsFor: 'as yet unclassified' stamp: 'ess 7/2/2025 09:11:57'!
 openNamespaceInContext: aContext
 
 	| nsPrefix |
-	self isNamespace ifFalse: [
-		^ self ].
+	self isNamespace ifFalse: [ ^ self ].
 	nsPrefix := name prefix ifNotNil: [ name local ].
 	aContext 
-		openNamespace: nsPrefix
+		openNamespacePrefix: nsPrefix
 		uri: value! !
 
-!XMLAttribute methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 13:48:27'!
-serializeTo: anXmlSerializer
-
-	anXmlSerializer attribute: self! !
-
-!XMLAttribute methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:16:25'!
-<= anotherAttribute
+!XmlAttribute methodsFor: 'comparing' stamp: 'ess 7/1/2025 15:56:46'!
+<= anXmlAttribute
 	"Order by name first, then value."
 
-	(name = anotherAttribute name) ifFalse: [
-		^ name < anotherAttribute name ].
+	(name ~= anXmlAttribute name) ifTrue: [
+		^ name <= anXmlAttribute name ].
 	"nil sorts before notNil"
-	(value isNil = anotherAttribute value isNil) ifFalse: [
+	(value isNil ~= anXmlAttribute value isNil) ifTrue: [
 		^ value isNil ].
-	^ value = anotherAttribute value
-		or: [ value < anotherAttribute value ]! !
+	^ value = anXmlAttribute value
+		or: [ value < anXmlAttribute value ]! !
 
-!XMLAttribute methodsFor: 'private' stamp: 'ess 11/7/2024 15:16:34'!
+!XmlAttribute methodsFor: 'comparing' stamp: 'ess 7/1/2025 08:39:04'!
+= anXmlAttribute
+
+	self == anXmlAttribute ifTrue: [ ^ true ].
+	self species == anXmlAttribute species ifFalse: [ ^ false ].
+	^ name = anXmlAttribute name
+		and: [ value = anXmlAttribute value ]! !
+
+!XmlAttribute methodsFor: 'comparing' stamp: 'ess 7/1/2025 08:39:19'!
+hash
+
+	^ (self species hash
+		bitXor: name hash)
+		bitXor: value hash! !
+
+!XmlAttribute methodsFor: 'serialization' stamp: 'ess 7/2/2025 08:56:08'!
+serializeTo: anXmlSerializer
+
+	anXmlSerializer
+		attribute: self! !
+
+!XmlAttribute methodsFor: 'private' stamp: 'ess 11/7/2024 15:16:34'!
 setName: aQualifiedName value: aStringOrNil
 
 	name := aQualifiedName.
 	value := aStringOrNil.
 	^ self! !
 
-!XMLAttribute class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 15:16:09'!
-name: aQualifiedName value: aStringOrNil
+!XmlAttribute class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:48:35'!
+local: localString value: valueString
+
+	^ self
+		name: (XmlQualifiedName local: localString)
+		value: valueString! !
+
+!XmlAttribute class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 08:18:43'!
+name: aQualifiedName value: aString
 
 	^ self new
 		setName: aQualifiedName
-		value: aStringOrNil! !
+		value: aString! !
 
-!XMLComment methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:17:50'!
+!XmlComment methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:17:50'!
 content
 
 	^ content! !
 
-!XMLComment methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:18:00'!
+!XmlComment methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:45:33'!
+string
+
+	^ content! !
+
+!XmlComment methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:37:03'!
+serializeTo: anXmlSerializer
+
+	anXmlSerializer
+		comment: self! !
+
+!XmlComment methodsFor: 'private' stamp: 'ess 7/2/2025 12:10:42'!
+setContent: aString
+
+	content := aString.
+	^ self! !
+
+!XmlComment class methodsFor: 'instance creation' stamp: 'ess 7/2/2025 12:11:02'!
 content: aString
 
-	content := aString! !
+	^ self new
+		setContent: aString! !
 
-!XMLDocument methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:18:09'!
+!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:35:32'!
+addChild: anXmlNode
+
+	| formerParent |
+	(anXmlNode isElement and: [ self element notNil ]) ifTrue: [
+		^ self error: 'Document can contain only one element child' ].
+	formerParent := anXmlNode parent.
+	formerParent ifNotNil: [
+		formerParent removeChild: anXmlNode ].
+	anXmlNode parent: self.
+	children addLast: anXmlNode! !
+
+!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:26:19'!
+appendText: aString
+
+	"Ignore text outside of elements."
+	^ self! !
+
+!XmlDocument methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:18:09'!
 children
 
 	^ children! !
 
-!XMLDocument methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:18:18'!
-children: aCollection
+!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:34:53'!
+element
 
-	children := aCollection! !
+	^ self elementChildren
+		at: 1
+		ifAbsent: [ nil ]! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:19:01'!
-appendChild: xmlNode
+!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:49:08'!
+prolog
+
+	^ prolog! !
+
+!XmlDocument methodsFor: 'initialization' stamp: 'ess 7/2/2025 12:18:51'!
+initialize
+
+	super initialize.
+	children := OrderedCollection new! !
+
+!XmlDocument methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:47:54'!
+serializeTo: anXmlSerializer
+
+	anXmlSerializer
+		document: self! !
+
+!XmlDocument methodsFor: 'private' stamp: 'ess 7/2/2025 12:19:15'!
+setProlog: anXmlProcessingInstruction
+
+	prolog := anXmlProcessingInstruction.
+	^ self! !
+
+!XmlDocument class methodsFor: 'instance creation' stamp: 'ess 7/2/2025 12:19:44'!
+prolog: anXmlProcessingInstruction
+
+	^ self new
+		setProlog: anXmlProcessingInstruction! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:01:28'!
+addAttribute: anXmlAttribute
+
+	attributes
+		add: anXmlAttribute! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:01:42'!
+addAttributes: aCollection
+
+	aCollection ifNil: [ ^ self ].
+	aCollection do: [ :each |
+		self addAttribute: each ]! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:03:26'!
+addChild: anXmlNode
 
 	| formerParent |
-	formerParent := xmlNode parent.
+	formerParent := anXmlNode parent.
 	formerParent ifNotNil: [
-		formerParent removeChild: xmlNode ].
-	xmlNode parent: self.
-	children addLast: xmlNode! !
+		formerParent removeChild: anXmlNode ].
+	anXmlNode parent: self.
+	children addLast: anXmlNode! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:19:22'!
-appendText: textContent
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:54:06'!
+addNamespace: anXmlNamespace
 
-	(children notEmpty and: [ children last isTextNode ]) ifFalse: [
-		self appendChild: XMLTextNode new ].
-	children last appendText: textContent! !
+	(namespaces includes: anXmlNamespace)
+		ifFalse: [
+			namespaces
+				add: anXmlNamespace ]! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 11/11/2024 11:49:20'!
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:55:37'!
+addNamespaces: aCollection
+
+	aCollection ifNil: [ ^ self ].
+	aCollection do: [ :each |
+		self addNamespace: each ]! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:03:26'!
+appendText: aString
+
+	| lastChild |
+	lastChild := children notEmpty ifTrue: [ children last ].
+	(lastChild notNil and: [ lastChild isTextNode ]) ifTrue: [
+		"If there is a last child and it is a text node, append to it."
+		^ lastChild appendText: aString ].
+	"Otherwises create a new text child."
+	self addChild:
+		(XmlTextNode content: aString)! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 11/11/2024 11:49:20'!
 attributeAt: localName ifAbsent: exceptionBlock
 
 	^ attributes
 		detect: [ :each | each name local = localName ]
 		ifNone: exceptionBlock! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 11/11/2024 11:49:54'!
+!XmlElement methodsFor: 'accessing' stamp: 'ess 11/11/2024 11:49:54'!
 attributeValueAt: localName ifAbsent: exceptionBlock
 
 	^ (self
@@ -2031,120 +2376,128 @@ attributeValueAt: localName ifAbsent: exceptionBlock
 		ifAbsent: exceptionBlock)
 			value! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:19:36'!
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:51:27'!
 attributes
 
 	^ attributes! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:19:45'!
-attributes: aCollection
-
-	attributes := aCollection! !
-
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:19:49'!
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:51:33'!
 children
 
 	^ children! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:19:58'!
-children: aCollection
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:49:17'!
+name
 
-	children := aCollection! !
+	^ name! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:20:08'!
-name: aQualifiedName
-
-	name := aQualifiedName! !
-
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:20:12'!
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:51:39'!
 namespaces
 
 	^ namespaces! !
 
-!XMLElement methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:20:21'!
-namespaces: aCollection
-
-	namespaces := aCollection! !
-
-!XMLElement methodsFor: 'accessing' stamp: 'ess 11/11/2024 16:27:38'!
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:21:35'!
 removeChild: xmlNode
 
-	children := children reject: [ :each | each == xmlNode ]! !
+	children := children
+		reject: [ :each | each == xmlNode ]! !
 
-!XMLElement methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 13:47:25'!
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:49:26'!
+tag
+
+	^ name local! !
+
+!XmlElement methodsFor: 'initialization' stamp: 'ess 7/2/2025 10:59:23'!
+initialize
+
+	super initialize.
+	children := OrderedCollection new.
+	attributes := OrderedCollection new.
+	namespaces := OrderedCollection new! !
+
+!XmlElement methodsFor: 'serialization' stamp: 'ess 7/1/2025 15:44:57'!
 serializeTo: anXmlSerializer
 
-	anXmlSerializer element: self! !
+	anXmlSerializer
+		element: self! !
 
-!XMLElement methodsFor: 'private' stamp: 'ess 11/7/2024 15:17:53'!
-setName: aQualifiedName attributes: aCollectionOfAttributes
+!XmlElement methodsFor: 'testing' stamp: 'ess 7/2/2025 11:19:05'!
+isElement
+
+	^ true! !
+
+!XmlElement methodsFor: 'private' stamp: 'ess 7/2/2025 11:02:01'!
+setName: aQualifiedName attributes: aCollection
 
 	name := aQualifiedName.
-	attributes := aCollectionOfAttributes.
+	self addAttributes: aCollection.
 	^ self! !
 
-!XMLElement class methodsFor: 'instance creation' stamp: 'ess 6/6/2025 10:18:30'!
-local: aString uri: aUri
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:54:15'!
+local: aString
 
 	^ self name:
-		(XMLQualifiedName
-			local: aString
-			uri: aUri)! !
+		(XmlQualifiedName local: aString)! !
 
-!XMLElement class methodsFor: 'instance creation' stamp: 'ess 11/8/2024 18:04:03'!
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:54:39'!
+local: aString attributes: aCollection
+
+	^ self
+		name: (XmlQualifiedName local: aString)
+		attributes: aCollection! !
+
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:42:40'!
+local: localString uri: uriString
+
+	^ self name:
+		(XmlQualifiedName
+			local: localString
+			uri: uriString)! !
+
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 11/8/2024 18:04:03'!
 name: aQualifiedName
 
 	^ self
 		name: aQualifiedName
 		attributes: nil! !
 
-!XMLElement class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 15:17:21'!
-name: aQualifiedName attributes: aCollectionOfAttributes
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:42:28'!
+name: aQualifiedName attributes: aCollection
 
 	^ self new
 		setName: aQualifiedName
-		attributes: aCollectionOfAttributes! !
+		attributes: aCollection! !
 
-!XMLNamespace methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:20:46'!
+!XmlNamespace methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:20:46'!
 prefix
 
 	^ prefix! !
 
-!XMLNamespace methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:20:56'!
-prefix: aString
+!XmlNamespace methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:45:51'!
+string
 
-	prefix := aString! !
+	^ uri! !
 
-!XMLNamespace methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:21:01'!
+!XmlNamespace methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:21:01'!
 uri
 
 	^ uri! !
 
-!XMLNamespace methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:21:09'!
-uri: aString
-
-	uri := aString! !
-
-!XMLNamespace methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 13:47:36'!
-serializeTo: anXmlSerializer
-
-	anXmlSerializer namespace: self! !
-
-!XMLNamespace methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:21:39'!
+!XmlNamespace methodsFor: 'comparing' stamp: 'ess 7/1/2025 08:36:48'!
 <= anotherNamespace
 	"Order by prefix first, then URI."
 	
 	"nil sorts before notNil."
-	(prefix isNil = anotherNamespace prefix isNil) ifFalse: [
+	(prefix isNil ~= anotherNamespace prefix isNil) ifTrue: [
 		^ prefix isNil ].
-	(prefix = anotherNamespace prefix) ifFalse: [
+	(prefix ~= anotherNamespace prefix) ifTrue: [
 		^ prefix <= anotherNamespace prefix ].
-	(uri isNil = anotherNamespace uri isNil) ifFalse: [
+	(uri isNil ~= anotherNamespace uri isNil) ifTrue: [
 		^ uri isNil ].
 	^ uri = anotherNamespace uri
 		or: [ uri < anotherNamespace uri ]! !
 
-!XMLNamespace methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:22:02'!
+!XmlNamespace methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:22:02'!
 = aNamespace
 
 	self == aNamespace ifTrue: [ ^ true ].
@@ -2152,146 +2505,145 @@ serializeTo: anXmlSerializer
 	^ prefix = aNamespace prefix
 		and: [ uri = aNamespace uri ]! !
 
-!XMLNamespace methodsFor: 'private' stamp: 'ess 11/7/2024 15:19:01'!
+!XmlNamespace methodsFor: 'comparing' stamp: 'ess 7/1/2025 08:36:24'!
+hash
+
+	^ (self species hash
+		bitXor: prefix hash)
+		bitXor: uri hash! !
+
+!XmlNamespace methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:41:25'!
+serializeTo: anXmlSerializer
+
+	anXmlSerializer
+		namespace: self! !
+
+!XmlNamespace methodsFor: 'private' stamp: 'ess 11/7/2024 15:19:01'!
 setPrefix: aStringOrNil uri: aUri
 
 	prefix := aStringOrNil.
 	uri := aUri.
 	^ self! !
 
-!XMLNamespace class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 15:19:07'!
+!XmlNamespace class methodsFor: 'instance creation' stamp: 'ess 11/7/2024 15:19:07'!
 prefix: aStringOrNil uri: aUri
 
 	^ self new
 		setPrefix: aStringOrNil
 		uri: aUri! !
 
-!XMLProcessingInstruction methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:22:48'!
+!XmlProcessingInstruction methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:22:48'!
 content
 
 	^ content! !
 
-!XMLProcessingInstruction methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:22:57'!
-content: aString
+!XmlProcessingInstruction methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:46:00'!
+string
 
-	content := aString! !
+	^ content! !
 
-!XMLProcessingInstruction methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:22:37'!
+!XmlProcessingInstruction methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:22:37'!
 target
 
 	^ target! !
 
-!XMLProcessingInstruction methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:22:42'!
-target: anObject
+!XmlProcessingInstruction methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:47:02'!
+serializeTo: anXmlSerializer
 
-	target := anObject! !
+	anXmlSerializer
+		processingInstruction: self! !
 
-!XMLProcessingInstruction methodsFor: 'private' stamp: 'ess 11/7/2024 17:28:12'!
+!XmlProcessingInstruction methodsFor: 'private' stamp: 'ess 11/7/2024 17:28:12'!
 setTarget: targetName content: aString
 
 	target := targetName.
 	content := aString.
 	^ self! !
 
-!XMLProcessingInstruction class methodsFor: 'instance creation' stamp: 'ess 6/6/2025 10:22:27'!
+!XmlProcessingInstruction class methodsFor: 'instance creation' stamp: 'ess 7/2/2025 12:44:24'!
 target: targetName content: aString
 
 	^ self new
-		setTarget: name
+		setTarget: targetName
 		content: aString! !
 
-!XMLTextNode methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:23:32'!
-content
-
-	^ content! !
-
-!XMLTextNode methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:23:40'!
-content: aString
-
-	content := aString! !
-
-!XMLTextNode methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 12:06:49'!
+!XmlTextNode methodsFor: 'accessing' stamp: 'ess 11/11/2024 12:06:49'!
 appendText: textContent
 
 	content := content, textContent! !
 
-!XMLTextNode methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 12:08:56'!
+!XmlTextNode methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:23:32'!
+content
+
+	^ content! !
+
+!XmlTextNode methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:46:08'!
+string
+
+	^ content! !
+
+!XmlTextNode methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:48:17'!
+serializeTo: anXmlSerializer
+
+	anXmlSerializer
+		text: self! !
+
+!XmlTextNode methodsFor: 'testing' stamp: 'ess 11/11/2024 12:08:56'!
 isTextNode
 
 	^ true! !
 
-!XMLTextNode methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 13:47:44'!
-serializeTo: anXmlSerializer
-
-	anXmlSerializer text: self! !
-
-!XMLTextNode methodsFor: 'private' stamp: 'ess 11/7/2024 15:19:55'!
+!XmlTextNode methodsFor: 'private' stamp: 'ess 11/7/2024 15:19:55'!
 setContent: aText
 
 	content := aText.
 	^ self! !
 
-!XMLTextNode class methodsFor: 'instance creation' stamp: 'ess 6/6/2025 10:23:11'!
+!XmlTextNode class methodsFor: 'instance creation' stamp: 'ess 6/6/2025 10:23:11'!
 content: aString
 
 	^ self new
 		setContent: aString! !
 
-!XMLQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:25:45'!
+!XmlQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:25:45'!
 local
 
 	^ local! !
 
-!XMLQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:25:54'!
-local: aString
-
-	local := aString! !
-
-!XMLQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:25:59'!
+!XmlQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:25:59'!
 prefix
 
 	^ prefix! !
 
-!XMLQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:26:07'!
-prefix: aString
-
-	prefix := aString! !
-
-!XMLQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:26:11'!
+!XmlQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:26:11'!
 uri
 
 	^ uri! !
 
-!XMLQualifiedName methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:26:19'!
-uri: aString
-
-	uri := aString! !
-
-!XMLQualifiedName methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:25:38'!
+!XmlQualifiedName methodsFor: 'as yet unclassified' stamp: 'ess 7/2/2025 09:25:08'!
 findNamespaceIn: aContextStack ifAbsent: exceptionBlock
 
-	aContextStack do: [ :each |
-		(each findNamespaceByPrefix: prefix) ifNotNil: [ :namespace |
-			uri := namespace uri.
-			^ self ] ].
-	prefix notNil ifTrue: [
-		exceptionBlock value ]! !
+	uri := (aContextStack findNamespaceByPrefix: prefix)
+		ifNotNil: [ :it | it uri ]
+		ifNil: [
+			prefix ifNotNil: [
+				exceptionBlock value ] ]! !
 
-!XMLQualifiedName methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:24:44'!
+!XmlQualifiedName methodsFor: 'comparing' stamp: 'ess 7/1/2025 08:35:20'!
 <= aQualifiedName
 	"Order by URI first, then local name."
 
 	"nil sorts before notNil"
-	(uri isNil = aQualifiedName uri isNil) ifFalse: [
+	(uri isNil ~= aQualifiedName uri isNil) ifTrue: [
 		^ uri isNil ].
-	(uri = aQualifiedName uri) ifFalse: [
+	(uri ~= aQualifiedName uri) ifTrue: [
 		^ uri <= aQualifiedName uri ].
-	(local isNil = aQualifiedName local isNil) ifFalse: [
+	(local isNil ~= aQualifiedName local isNil) ifTrue: [
 		^ local isNil ].
 	^ local = aQualifiedName local
 		or: [ local < aQualifiedName local ]! !
 
-!XMLQualifiedName methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:24:59'!
+!XmlQualifiedName methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:24:59'!
 = aQualifiedName
 
 	self == aQualifiedName ifTrue: [ ^ true ].
@@ -2299,14 +2651,14 @@ findNamespaceIn: aContextStack ifAbsent: exceptionBlock
 	^ uri = aQualifiedName uri
 		and: [ local = aQualifiedName local ]! !
 
-!XMLQualifiedName methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:25:06'!
+!XmlQualifiedName methodsFor: 'comparing' stamp: 'ess 6/6/2025 10:25:06'!
 hash
 
 	^ (self species hash
 		bitXor: uri hash)
 		bitXor: local hash! !
 
-!XMLQualifiedName methodsFor: 'printing' stamp: 'ess 6/6/2025 10:24:19'!
+!XmlQualifiedName methodsFor: 'printing' stamp: 'ess 6/6/2025 10:24:19'!
 printOn: aStream
 
 	prefix ifNotNil: [
@@ -2316,7 +2668,7 @@ printOn: aStream
 	aStream
 		nextPutAll: local! !
 
-!XMLQualifiedName methodsFor: 'private' stamp: 'ess 11/11/2024 11:35:53'!
+!XmlQualifiedName methodsFor: 'private' stamp: 'ess 11/11/2024 11:35:53'!
 setLocal: localPart prefix: prefixPart uri: namespaceUri
 
 	local := localPart.
@@ -2324,169 +2676,192 @@ setLocal: localPart prefix: prefixPart uri: namespaceUri
 	uri := namespaceUri.
 	^ self! !
 
-!XMLQualifiedName class methodsFor: 'instance creation' stamp: 'ess 11/11/2024 11:36:52'!
-local: localPart
+!XmlQualifiedName class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:42:06'!
+local: aString
 
 	^ self
-		local: localPart
+		local: aString
 		prefix: nil
 		uri: nil! !
 
-!XMLQualifiedName class methodsFor: 'instance creation' stamp: 'ess 11/11/2024 11:36:21'!
-local: localPart prefix: prefixPart
+!XmlQualifiedName class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:41:49'!
+local: localString prefix: prefixString
 
 	^ self
-		local: localPart
-		prefix: prefixPart
+		local: localString
+		prefix: prefixString
 		uri: nil! !
 
-!XMLQualifiedName class methodsFor: 'instance creation' stamp: 'ess 11/11/2024 11:36:00'!
-local: localPart prefix: prefixPart uri: namespaceUri
+!XmlQualifiedName class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:41:36'!
+local: localString prefix: prefixString uri: uriString
 
 	^ self new
-		setLocal: localPart
-		prefix: prefixPart
-		uri: namespaceUri! !
+		setLocal: localString
+		prefix: prefixString
+		uri: uriString! !
 
-!XMLQualifiedName class methodsFor: 'instance creation' stamp: 'ess 11/11/2024 11:36:45'!
-local: localName uri: namespaceURi
+!XmlQualifiedName class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:41:58'!
+local: localString uri: uriString
 
 	^ self
-		local: localName
+		local: localString
 		prefix: nil
-		uri: namespaceURi! !
+		uri: uriString! !
 
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:26:50'!
-attribute: attribute
-	"Output a single attribute."
+!XmlSerializer methodsFor: 'context' stamp: 'ess 7/2/2025 09:50:18'!
+namespacePrefix: uriString
 
-	output nextPut: Character space.
-	self qualifiedName: attribute name.
-	attribute value ifNotNil: [
-		output
-			nextPut: $=;
-			nextPut: $";
-			nextPutAll: (XML escapeAttribute: attribute value);
-			nextPut: $" ]! !
+	^ (contexts findNamespaceByUri: uriString)
+		ifNotNil: [ :it | it prefix ]! !
 
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:26:56'!
-attributes: attributes
-
-	attributes do: [ :each |
-		self attribute: each ]! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:27:03'!
-element: xmlElement
-
-	self startTag: xmlElement.
-	xmlElement children do: [ :each |
-		self node: each ].
-	self endTag: xmlElement! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:08:25'!
-endTag: element
-
-	output
-		nextPut: $<;
-		nextPut: $/.
-	self qualifiedName: element name.
-	output nextPut: $>.
-	self popContext! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:14:03'!
-findNamespaceByUri: namespaceUri
-
-	^ contexts findNamespaceByUri: namespaceUri! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:17:13'!
-includesNamespace: xmlNamespace
-
-	^ contexts includesNamespace: xmlNamespace! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:27:19'!
-initialize
-
-	super initialize.
-	contexts := XMLContextStack new! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:27:36'!
-namespace: xmlNamespace
-	"Output a single namespace declaration."
-
-	output nextPutAll: 'xmlns'.
-	xmlNamespace prefix ifNotNil: [
-		output
-			nextPut: $:;
-			nextPutAll: xmlNamespace prefix ].
-	output
-		nextPut: $=;
-		nextPut: $";
-		nextPutAll: (XML escapeAttribute: xmlNamespace uri);
-		nextPut: $:! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:27:45'!
-namespacePrefix: namespaceUri
-
-	^ (self findNamespaceByUri: namespaceUri) ifNotNil: [ :namespace |
-		namespace prefix ]! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:27:52'!
-namespaces: namespaces
-	"Output namespace declarations."
-
-	namespaces do: [ :each |
-		self namespace: each ]! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 13:51:02'!
-node: xmlNode
-
-	xmlNode serializeTo: self! !
-
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:14:16'!
+!XmlSerializer methodsFor: 'context' stamp: 'ess 11/11/2024 14:14:16'!
 popContext
 
 	contexts pop! !
 
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:14:27'!
-pushContext: namespaces
+!XmlSerializer methodsFor: 'context' stamp: 'ess 7/1/2025 12:39:36'!
+pushContext: namespacesCollection
 
-	contexts push: namespaces! !
+	contexts
+		push: namespacesCollection! !
 
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:28:14'!
-qualifiedName: aQualifiedName
+!XmlSerializer methodsFor: 'initialization' stamp: 'ess 7/1/2025 07:15:15'!
+initialize
 
-	(self namespacePrefix: aQualifiedName uri) ifNotNil: [ :prefix |
-		output
-			nextPutAll: prefix;
-			nextPut: $: ].
-	output
-		nextPutAll: aQualifiedName local! !
+	super initialize.
+	contexts := XmlContextStack new! !
 
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 6/6/2025 10:28:24'!
-startTag: element
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:46:53'!
+attribute: anXmlAttribute
+	"Output a single attribute."
 
-	| newNamespaces |
-	newNamespaces := element namespaces reject: [ :each | self includesNamespace: each ].
-	self pushContext: newNamespaces.
-	output nextPut: $<.
-	self qualifiedName: element name.
-	self namespaces: newNamespaces.
-	self attributes: element attributes.
-	output nextPut: $>! !
+	stream nextPut: Character space.
+	self
+		qualifiedName: anXmlAttribute name;
+		attributeValue: anXmlAttribute value! !
 
-!XMLSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 13:51:27'!
-text: xmlTextNode
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:46:22'!
+attributeValue: aString
 
-	output nextPutAll: (XML escapeContent: xmlTextNode content)! !
+	aString ifNil: [ ^ self ].
+	stream
+		nextPut: $=;
+		nextPut: $";
+		nextPutAll: (Xml escapeAttribute: aString);
+		nextPut: $"! !
 
-!XMLCanonicalSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 13:41:30'!
-attributes: attributes
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:45:05'!
+attributes: aCollection
 	"Output attributes in sorted order."
 
-	super attributes: attributes asSortedCollection! !
+	aCollection asSortedCollection do: [ :each |
+		each serializeTo: self ]! !
 
-!XMLCanonicalSerializer methodsFor: 'as yet unclassified' stamp: 'ess 11/11/2024 14:02:58'!
-namespaces: namespaces
-	"Output namespaces in sorted order."
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:37:51'!
+comment: anXmlComment
 
-	super namespaces: namespaces asSortedCollection! !
+	stream
+		nextPutAll: '<!!--';
+		nextPutAll: anXmlComment content;
+		nextPutAll: '-->'! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:50:39'!
+document: anXmlDocument
+
+	anXmlDocument prolog ifNotNil: [ :it |
+		it serializeTo: self.
+		stream nextPut: Character lf ].
+	anXmlDocument children do: [ :each |
+		each serializeTo: self ]! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 08:58:13'!
+element: anXmlElement
+
+	self startTag: anXmlElement.
+	anXmlElement children do: [ :each |
+		each serializeTo: self ].
+	self endTag: anXmlElement! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/1/2025 12:38:03'!
+endTag: anXmlElement
+
+	stream
+		nextPut: $<;
+		nextPut: $/.
+	self qualifiedName: anXmlElement name.
+	stream nextPut: $>.
+	self popContext! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 11:02:37'!
+namespace: anXmlNamespace
+	"Output a single namespace declaration."
+
+	stream
+		nextPut: Character space;
+		nextPutAll: 'xmlns'.
+	anXmlNamespace prefix ifNotNil: [
+		stream
+			nextPut: $:;
+			nextPutAll: anXmlNamespace prefix ].
+	self
+		attributeValue: anXmlNamespace uri! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:44:16'!
+namespaces: aCollection
+	"Output namespace declarations in sorted order."
+
+	aCollection asSortedCollection do: [ :each |
+		each serializeTo: self ]! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:46:34'!
+processingInstruction: anXmlProcessingInstruction
+
+	stream
+		nextPutAll: '<?';
+		nextPutAll: anXmlProcessingInstruction target;
+		nextPut: Character space;
+		nextPutAll: anXmlProcessingInstruction content;
+		nextPutAll: '?>'! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/1/2025 12:40:52'!
+qualifiedName: anXmlQualifiedName
+
+	(self namespacePrefix: anXmlQualifiedName uri)
+		ifNotNil: [ :it |
+			stream
+				nextPutAll: it;
+				nextPut: $: ].
+	stream
+		nextPutAll: anXmlQualifiedName local! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:39:54'!
+startTag: anXmlElement
+
+	| newNamespaces |
+	newNamespaces := anXmlElement namespaces
+		reject: [ :each | contexts includesNamespace: each ].
+	self pushContext: newNamespaces.
+	stream nextPut: $<.
+	self
+		qualifiedName: anXmlElement name;
+		namespaces: newNamespaces;
+		attributes: anXmlElement attributes.
+	stream nextPut: $>! !
+
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/1/2025 15:28:38'!
+text: anXmlTextNode
+
+	stream nextPutAll:
+		(Xml escapeText: anXmlTextNode content)! !
+
+!XmlSerializer methodsFor: 'private' stamp: 'ess 7/1/2025 12:32:20'!
+setStream: aStream
+
+	stream := aStream.
+	^ self! !
+
+!XmlSerializer class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 12:32:08'!
+on: aStream
+
+	^ self new
+		setStream: aStream! !
