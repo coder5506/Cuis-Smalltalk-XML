@@ -1,6 +1,6 @@
-'From Cuis7.5 [latest update: #7302] on 2 July 2025 at 1:47:51 pm'!
+'From Cuis7.5 [latest update: #7342] on 11 July 2025 at 10:12:27 am'!
 'Description '!
-!provides: 'Xml' 1 4!
+!provides: 'XML' 1 5!
 !requires: 'Cuis-Base' 75 7262 nil!
 !requires: 'Unicode' 1 7 nil!
 SystemOrganization addCategory: #XML!
@@ -39,8 +39,18 @@ TestCase subclass: #XmlTests
 XmlTests class
 	instanceVariableNames: ''!
 
+!classDefinition: #XmlBaseParser category: #'XML-Public'!
+RecursiveDescentParser subclass: #XmlBaseParser
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'XML-Public'!
+!classDefinition: 'XmlBaseParser class' category: #'XML-Public'!
+XmlBaseParser class
+	instanceVariableNames: ''!
+
 !classDefinition: #XmlPullParser category: #'XML-Public'!
-RecursiveDescentParser subclass: #XmlPullParser
+XmlBaseParser subclass: #XmlPullParser
 	instanceVariableNames: 'error buffer contexts events'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -131,7 +141,7 @@ XmlCharacterDataEvent class
 
 !classDefinition: #XmlCommentEvent category: #'XML-Public'!
 XmlEvent subclass: #XmlCommentEvent
-	instanceVariableNames: 'content'
+	instanceVariableNames: 'data'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'XML-Public'!
@@ -201,7 +211,7 @@ XmlProcessingInstructionEvent class
 
 !classDefinition: #XmlNode category: #'XML-Public'!
 Object subclass: #XmlNode
-	instanceVariableNames: 'parent'
+	instanceVariableNames: 'document parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'XML-Public'!
@@ -221,32 +231,12 @@ XmlAttribute class
 
 !classDefinition: #XmlComment category: #'XML-Public'!
 XmlNode subclass: #XmlComment
-	instanceVariableNames: 'content'
+	instanceVariableNames: 'data'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'XML-Public'!
 !classDefinition: 'XmlComment class' category: #'XML-Public'!
 XmlComment class
-	instanceVariableNames: ''!
-
-!classDefinition: #XmlDocument category: #'XML-Public'!
-XmlNode subclass: #XmlDocument
-	instanceVariableNames: 'prolog children'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'XML-Public'!
-!classDefinition: 'XmlDocument class' category: #'XML-Public'!
-XmlDocument class
-	instanceVariableNames: ''!
-
-!classDefinition: #XmlElement category: #'XML-Public'!
-XmlNode subclass: #XmlElement
-	instanceVariableNames: 'name children attributes namespaces'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'XML-Public'!
-!classDefinition: 'XmlElement class' category: #'XML-Public'!
-XmlElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #XmlNamespace category: #'XML-Public'!
@@ -259,6 +249,36 @@ XmlNode subclass: #XmlNamespace
 XmlNamespace class
 	instanceVariableNames: ''!
 
+!classDefinition: #XmlParentNode category: #'XML-Public'!
+XmlNode subclass: #XmlParentNode
+	instanceVariableNames: 'children'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'XML-Public'!
+!classDefinition: 'XmlParentNode class' category: #'XML-Public'!
+XmlParentNode class
+	instanceVariableNames: ''!
+
+!classDefinition: #XmlDocument category: #'XML-Public'!
+XmlParentNode subclass: #XmlDocument
+	instanceVariableNames: 'prolog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'XML-Public'!
+!classDefinition: 'XmlDocument class' category: #'XML-Public'!
+XmlDocument class
+	instanceVariableNames: ''!
+
+!classDefinition: #XmlElement category: #'XML-Public'!
+XmlParentNode subclass: #XmlElement
+	instanceVariableNames: 'name attributes namespaces'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'XML-Public'!
+!classDefinition: 'XmlElement class' category: #'XML-Public'!
+XmlElement class
+	instanceVariableNames: ''!
+
 !classDefinition: #XmlProcessingInstruction category: #'XML-Public'!
 XmlNode subclass: #XmlProcessingInstruction
 	instanceVariableNames: 'target content'
@@ -269,14 +289,14 @@ XmlNode subclass: #XmlProcessingInstruction
 XmlProcessingInstruction class
 	instanceVariableNames: ''!
 
-!classDefinition: #XmlTextNode category: #'XML-Public'!
-XmlNode subclass: #XmlTextNode
+!classDefinition: #XmlText category: #'XML-Public'!
+XmlNode subclass: #XmlText
 	instanceVariableNames: 'content'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'XML-Public'!
-!classDefinition: 'XmlTextNode class' category: #'XML-Public'!
-XmlTextNode class
+!classDefinition: 'XmlText class' category: #'XML-Public'!
+XmlText class
 	instanceVariableNames: ''!
 
 !classDefinition: #XmlQualifiedName category: #'XML-Public'!
@@ -420,11 +440,11 @@ testEscapedAttribute
 		assert: node printString
 		equals: ' attribute="&#x9;&quot;&lt;this &amp; that>&quot;"'! !
 
-!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/1/2025 15:24:54'!
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/10/2025 06:45:01'!
 testEscapedText
 
 	| node |
-	node := XmlTextNode
+	node := XmlText
 		content: '<this & that>', String crString.
 	self
 		assert: node printString
@@ -456,17 +476,17 @@ testPlainAttribute
 		assert: node printString
 		equals: ' attribute="this and that"'! !
 
-!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/1/2025 15:27:44'!
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/10/2025 06:45:01'!
 testPlainText
 
 	| text node |
 	text := 'this and that', String lfString.
-	node := XmlTextNode content: text.
+	node := XmlText content: text.
 	self
 		assert: node printString
 		equals: text! !
 
-!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/2/2025 09:58:47'!
+!XmlSerializerTests methodsFor: 'tests' stamp: 'ess 7/10/2025 06:16:12'!
 testRedundantNamespaces
 
 	| dolls dollhouse echo |
@@ -482,7 +502,7 @@ testRedundantNamespaces
 		(XmlNamespace
 			prefix: 'e'
 			uri: 'echo').
-	dollhouse addChild: echo.
+	dollhouse appendChild: echo.
 	self
 		assert: dollhouse printString
 		equals: '<dollhouse xmlns:e="echo" xmlns:s="sierra" xmlns:v="victor"><echo></echo></dollhouse>'! !
@@ -633,7 +653,7 @@ parse: aStringOrStream
 
 	document := Xml parse: aStringOrStream! !
 
-!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:56:47'!
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/10/2025 07:05:32'!
 test01
 
 	| element children |
@@ -645,12 +665,12 @@ test01
 
 	self parse: self exampleString01.
 	element := document element.
-	self assert: element tag equals: 'note'.
+	self assert: element tagName equals: 'note'.
 	children := element elementChildren.
 	self assert: children size equals: 4.
 
 	element := children third.
-	self assert: element tag equals: 'heading'.
+	self assert: element tagName equals: 'heading'.
 	self
 		assert: element string
 		equals: 'Reminder'.
@@ -662,7 +682,7 @@ test01
 		assert: document printString
 		equals: self exampleString01! !
 
-!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:56:42'!
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/10/2025 07:05:41'!
 test02
 
 	| element children |
@@ -677,7 +697,7 @@ test02
 	children := element elementChildren.
 
 	element := children third.
-	self assert: element tag equals: 'heading'.
+	self assert: element tagName equals: 'heading'.
 	self
 		assert: element string
 		equals: '„Sicherheitshinweise“'.
@@ -696,7 +716,7 @@ test02
   <body>Don''t forget me this weekend!!</body>
 </note>'! !
 
-!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:56:37'!
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/10/2025 07:05:53'!
 test03
 
 	| element children |
@@ -707,17 +727,17 @@ test03
 	self assert: xmlDocument elements size = 1."
 
 	element := document element.
-	self assert: element tag equals: 'breakfast_menu'.
+	self assert: element tagName equals: 'breakfast_menu'.
 	children := element elementChildren.
 	self assert: children size equals: 5.
 
 	element := children third.
-	self assert: element tag equals: 'food'.
+	self assert: element tagName equals: 'food'.
 	children := element elementChildren.
 	self assert: children size equals: 4.
 
 	element := children first.
-	self assert: element tag equals: 'name'.
+	self assert: element tagName equals: 'name'.
 	self
 		assert: element string
 		equals: 'Berry-Berry Belgian Waffles'.
@@ -726,20 +746,20 @@ test03
 		equals: '<name>Berry-Berry Belgian Waffles</name>'.
 
 	element := children second.
-	self assert: element tag equals: 'price'.
+	self assert: element tagName equals: 'price'.
 	self assert: element string equals: '$8.95'.
 	self
 		assert: element printString
 		equals: '<price>$8.95</price>'.
 
 	element := children third.
-	self assert: element tag equals: 'description'.
+	self assert: element tagName equals: 'description'.
 	self
 		assert: element string
 		equals: 'Light Belgian waffles covered with an assortment of fresh berries and whipped cream'.
 
 	element := children fourth.
-	self assert: element tag equals: 'calories'.
+	self assert: element tagName equals: 'calories'.
 	self assert: element string equals: '900'.
 	self
 		assert: element printString
@@ -749,7 +769,7 @@ test03
 		assert: document printString
 		equals: self exampleString03! !
 
-!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:56:30'!
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/10/2025 07:05:58'!
 test04
 
 	| element children |
@@ -776,7 +796,7 @@ test04
 		equals: '<price>$8.95</price>'.
 
 	element := children third.
-	self assert: element tag equals: 'description'.
+	self assert: element tagName equals: 'description'.
 	self
 		assert: element string
 		equals: 'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
@@ -790,7 +810,7 @@ test04
 		assert: document printString
 		equals: self exampleString04! !
 
-!XmlTests methodsFor: 'tests' stamp: 'ess 7/2/2025 12:57:14'!
+!XmlTests methodsFor: 'tests' stamp: 'ess 7/10/2025 07:06:04'!
 test05
 
 	| element children |
@@ -817,7 +837,7 @@ test05
 		equals: '<ñandú>$8.95</ñandú>'.
 
 	element := children third.
-	self assert: element tag equals: 'Лорем'.
+	self assert: element tagName equals: 'Лорем'.
 	self
 		assert: element string
 		equals: 'ლორემ იფსუმ დოლორ სით ამეთ, ყუო უთ დიცათ ალიყუიდ, ად ლიბრის ცეთეროს რეფრეჰენდუნთ ესთ.'.
@@ -854,12 +874,37 @@ test06
 		assert: document printString
 		equals: self exampleString06! !
 
+!XmlBaseParser methodsFor: 'as yet unclassified' stamp: 'ess 7/10/2025 17:12:09'!
+collectString: aUnaryBlock
+
+	^ UnicodeString
+		streamContents: aUnaryBlock! !
+
+!XmlBaseParser methodsFor: 'parsing' stamp: 'ess 7/10/2025 17:11:28'!
+skipWhitespace
+
+	[ self isWhitespace ]
+		whileTrue: [ self consume ]! !
+
+!XmlBaseParser methodsFor: 'testing' stamp: 'ess 7/10/2025 17:11:53'!
+isWhitespace
+	"Tab, Newline, Carriage Return, or Space"
+
+	^ lookahead notNil
+		and: [ #(9 10 13 32) statePointsTo: lookahead codePoint ]! !
+
 !XmlPullParser methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:29:56'!
 error
 	"notNil if parse error."
 	"Note that parse methods can return an error as well.  The returned error may be transient, merely a result of incomplete input.  This error is permanent and indicates malformed input."
 
 	^ error! !
+
+!XmlPullParser methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:33:09'!
+events
+	"Queue of pending events."
+
+	^ events! !
 
 !XmlPullParser methodsFor: 'accessing' stamp: 'ess 7/2/2025 09:21:08'!
 findNamespace: prefixString
@@ -877,12 +922,6 @@ readStream
 writeStream
 
 	^ buffer! !
-
-!XmlPullParser methodsFor: 'as yet unclassified' stamp: 'ess 7/1/2025 08:33:09'!
-events
-	"Queue of pending events."
-
-	^ events! !
 
 !XmlPullParser methodsFor: 'construction' stamp: 'ess 7/1/2025 10:04:56'!
 addCharacterData: aString
@@ -982,12 +1021,12 @@ startTag: aQualifiedName withAttributes: aCollection
 			name: aQualifiedName
 			attributes: aCollection)! !
 
-!XmlPullParser methodsFor: 'initialization' stamp: 'ess 7/2/2025 09:19:21'!
+!XmlPullParser methodsFor: 'initialization' stamp: 'ess 7/10/2025 07:33:20'!
 initialize
 
 	super initialize.
 	buffer := StreamBuffer new.
-	contexts := XmlContextStack new.
+	contexts := XmlContextStack xmlNamespaces.
 	events := OrderedCollection new! !
 
 !XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:39:56'!
@@ -1051,13 +1090,13 @@ readAttributeValue
 	self expect: quote.
 	^ content! !
 
-!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:31:33'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 15:22:26'!
 readCData
 
 	| done content |
 	self expectAll: 'CDATA['.
 	done := false.
-	content := UnicodeString streamContents: [ :stream |
+	content := self collectString: [ :stream |
 		[ done or: [ lookahead isNil ] ] whileFalse: [
 			(self match: $])
 				ifFalse: [
@@ -1091,11 +1130,11 @@ readCharacter
 		^ self readCharacterReference ].
 	^ self consume! !
 
-!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:31:54'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 15:22:35'!
 readCharacterData
 
 	| content |	
-	content := UnicodeString streamContents: [ :stream |
+	content := self collectString: [ :stream |
 		[ lookahead isNil or: [ '&<' includes: lookahead ] ] whileFalse: [
 			stream nextPut: self consume ] ].
 	content isEmpty ifTrue: [
@@ -1112,12 +1151,12 @@ readCharacterReference
 	self expect: $;.
 	^ answer! !
 
-!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 12:09:55'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/10/2025 06:10:16'!
 readComment
 
 	| done content |
 	done := false.
-	content := UnicodeString streamContents: [ :stream |
+	content := self collectString: [ :stream |
 		[ done or: [ lookahead isNil ] ] whileFalse: [
 			(self match: $-)
 				ifFalse: [
@@ -1133,7 +1172,7 @@ readComment
 	self expect: $>.
 	self addEvent:
 		(XmlCommentEvent
-			content: content)! !
+			data: content)! !
 
 !XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:38:50'!
 readContent
@@ -1159,7 +1198,7 @@ readEndTag
 	self expect: $>.
 	self endTag: name! !
 
-!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:28:17'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 15:28:34'!
 readMarkup
 
 	(self match: $!!) ifTrue: [
@@ -1168,7 +1207,7 @@ readMarkup
 		^ self readEndTag ].
 	(self match: $?) ifTrue: [
 		^ self readProcessingInstruction ].
-	self isNameStartCharacter ifTrue: [
+	self isNameCharacter ifTrue: [
 		^ self readStartTag ].
 	^ self parseError: 'Unexpected'! !
 
@@ -1179,17 +1218,17 @@ readMarkupDeclaration
 	(self match: $[) ifTrue: [ ^ self readCData ].
 	^ self parseError: 'unexpected'! !
 
-!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:29:32'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 15:28:24'!
 readName
 	"Parse qualified name."
 
 	| local prefix |
 	self skipWhitespace.
-	self isNameStartCharacter ifFalse: [
-		^ self parseError: 'Expected name start character' ].
+	self isNameCharacter ifFalse: [
+		^ self parseError: 'Expected name character' ].
 	local := self readNamePart.
 	(self match: $:) ifTrue: [  "Namespace separator"
-		self isNameStartCharacter ifFalse: [
+		self isNameCharacter ifFalse: [
 			^ self parseError: 'Expected local name' ].
 		prefix := local.
 		local := self readNamePart ].
@@ -1197,14 +1236,14 @@ readName
 		local: local
 		prefix: prefix! !
 
-!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/1/2025 10:20:42'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 15:28:07'!
 readNamePart
 
-	self isNameStartCharacter ifFalse: [
-		^ self parseError: 'Expected name start character' ].
+	self isNameCharacter ifFalse: [
+		^ self parseError: 'Expected name character' ].
 
 	"Collect valid name characters."
-	^ UnicodeString streamContents: [:stream |
+	^ self collectString: [:stream |
 		[ self isNameCharacter ] whileTrue: [
 			stream
 				nextPut: self consume ] ]! !
@@ -1266,14 +1305,14 @@ readNumericCharacterReference
 	^ Character
 		codePoint: codepoint! !
 
-!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 09:37:10'!
+!XmlPullParser methodsFor: 'parsing' stamp: 'ess 7/2/2025 15:23:20'!
 readProcessingInstruction
 
 	| target done content |
 	target := self readNamePart.
 	self skipWhitespace.	
 	done := false.
-	content := UnicodeString streamContents: [ :stream |
+	content := self collectString: [ :stream |
 		[ done or: [ lookahead isNil ] ] whileFalse: [
 			(self match: $?)
 				ifFalse: [
@@ -1314,12 +1353,6 @@ readStartTag
 	empty ifTrue: [
 		self endTag: name ]! !
 
-!XmlPullParser methodsFor: 'parsing' stamp: 'ess 6/6/2025 08:10:13'!
-skipWhitespace
-
-	[ self isWhitespace ] whileTrue: [
-		self consume ]! !
-
 !XmlPullParser methodsFor: 'testing' stamp: 'ess 7/1/2025 16:59:41'!
 isNameCharacter
 
@@ -1345,13 +1378,6 @@ isValidCodepoint: anInteger
 	^ ((anInteger between: 32 and: 16rD7FF)
 		or: [ anInteger between: 16rE000 and: 16rFFFD ])
 		or: [ anInteger between: 16r10000 and: 16r10FFFF ]! !
-
-!XmlPullParser methodsFor: 'testing' stamp: 'ess 6/6/2025 08:13:31'!
-isWhitespace
-	"Tab, Newline, Carriage Return, or Space"
-
-	^ lookahead notNil
-		and: [ #(9 10 13 32) statePointsTo: lookahead codePoint ]! !
 
 !StreamBuffer methodsFor: 'as yet unclassified' stamp: 'ess 11/7/2024 17:26:10'!
 atEnd
@@ -1525,12 +1551,6 @@ setName: aQualifiedName namespaces: aCollection
 	self addNamespaces: aCollection.
 	^ self! !
 
-!XmlContext class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 12:58:23'!
-defaultXmlContext
-	"Contains reserved namespaces."
-
-	^ self namespaces: Xml reservedNamespaces! !
-
 !XmlContext class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 12:58:54'!
 name: aQualifiedName
 
@@ -1599,12 +1619,32 @@ top
 
 	^ contexts last! !
 
-!XmlContextStack methodsFor: 'initialization' stamp: 'ess 7/2/2025 09:05:04'!
+!XmlContextStack methodsFor: 'initialization' stamp: 'ess 7/10/2025 07:31:00'!
 initialize
 
 	super initialize.
-	contexts := OrderedCollection
-		with: XmlContext defaultXmlContext! !
+	contexts := OrderedCollection new! !
+
+!XmlContextStack methodsFor: 'private' stamp: 'ess 7/10/2025 07:31:53'!
+setNamespaces: aCollection
+
+	self push: aCollection.
+	^ self! !
+
+!XmlContextStack class methodsFor: 'instance creation' stamp: 'ess 7/10/2025 07:30:08'!
+namespaces: aCollection
+
+	^ self new
+		setNamespaces: aCollection! !
+
+!XmlContextStack class methodsFor: 'instance creation' stamp: 'ess 7/10/2025 07:33:13'!
+xmlNamespaces
+
+	^ self
+		namespaces: Xml reservedNamespaces! !
+
+!Xml methodsFor: 'look in class' stamp: 'ess 7/2/2025 14:58:44'!
+seeClassSide! !
 
 !Xml class methodsFor: 'as yet unclassified' stamp: 'ess 7/1/2025 15:26:53'!
 escape: aString using: aDictionary
@@ -1768,15 +1808,15 @@ handleCharacterData: aCharacterDataEvent
 	elements last
 		appendText: aCharacterDataEvent content! !
 
-!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/2/2025 12:14:48'!
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/10/2025 06:16:12'!
 handleComment: aCommentEvent
 
 	| comment |
 	comment := XmlComment
-		content: aCommentEvent content.
+		data: aCommentEvent data.
 	elements notEmpty ifTrue: [
 		elements last
-			addChild: comment ]! !
+			appendChild: comment ]! !
 
 !XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/1/2025 11:40:13'!
 handleElementEnd: anElementEndEvent
@@ -1791,7 +1831,7 @@ handleElementEnd: anElementEndEvent
 			copyFrom: 1
 			to: index - 1 ]! !
 
-!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/2/2025 11:17:08'!
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/10/2025 06:16:12'!
 handleElementStart: anElementStartEvent
 	"Open a new element, making it a child of the current element, and push the new element onto the stack."
 
@@ -1814,7 +1854,7 @@ handleElementStart: anElementStartEvent
 	"Make it a child of the current element."
 	elements notEmpty ifTrue: [
 		elements last
-			addChild: element ].
+			appendChild: element ].
 
 	"Make the new element current."
 	elements addLast: element.
@@ -1854,7 +1894,7 @@ handleNamespaceStart: aNamespaceStartEvent
 			prefix: aNamespaceStartEvent prefix
 			uri: aNamespaceStartEvent uri)! !
 
-!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/2/2025 12:40:43'!
+!XmlBuilder methodsFor: 'visiting' stamp: 'ess 7/10/2025 06:16:12'!
 handleProcessingInstruction: aProcessingInstructionEvent
 
 	| pi doc |
@@ -1864,7 +1904,7 @@ handleProcessingInstruction: aProcessingInstructionEvent
 	elements notEmpty ifTrue: [
 		"Any PI occurring within the document is just another node."
 		^ elements last
-			addChild: pi ].
+			appendChild: pi ].
 	root ifNotNil: [ ^ self ].
 
 	"A PI ocurring before element may be the document prolog."
@@ -1908,16 +1948,28 @@ content: aText
 	^ self new
 		setContent: aText! !
 
-!XmlCommentEvent methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:12:43'!
-content
+!XmlCommentEvent methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:09:57'!
+data
 
-	^ content! !
+	^ data! !
 
 !XmlCommentEvent methodsFor: 'visiting' stamp: 'ess 7/1/2025 10:52:12'!
 dispatchEvent: anXmlBuilder
 
 	anXmlBuilder
 		handleComment: self! !
+
+!XmlCommentEvent methodsFor: 'private' stamp: 'ess 7/10/2025 06:10:45'!
+setData: aString
+
+	data := aString.
+	^ self! !
+
+!XmlCommentEvent class methodsFor: 'instance creation' stamp: 'ess 7/10/2025 06:10:30'!
+data: aString
+
+	^ self new
+		setData: aString! !
 
 !XmlElementEndEvent methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:25:34'!
 name
@@ -2078,10 +2130,27 @@ target: targetName content: aString
 		setTarget: targetName
 		content: aString! !
 
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 05:55:51'!
+appendText: aString
+
+	^ self! !
+
 !XmlNode methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:43:34'!
 children
 
 	^ #()! !
+
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:40:23'!
+document
+
+	^ document
+		value! !
+
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:40:29'!
+document: anHtmlDocument
+
+	document
+		value: anHtmlDocument! !
 
 !XmlNode methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:18:46'!
 elementChildren
@@ -2089,38 +2158,60 @@ elementChildren
 	^ self children
 		select: [ :each | each isElement ]! !
 
-!XmlNode methodsFor: 'accessing' stamp: 'ess 11/11/2024 16:25:32'!
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:33:02'!
 parent
 
-	^ parent value! !
+	^ parent
+		value! !
 
-!XmlNode methodsFor: 'accessing' stamp: 'ess 7/1/2025 13:04:31'!
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:41:34'!
 parent: anXmlElement
 
-	parent value: anXmlElement! !
+	parent value
+		ifNotNil: [ :oldParent |
+			oldParent removeChild: self ].
+	parent
+		value: anXmlElement.
+	parent value
+		ifNotNil: [ :newParent |
+			self document: newParent document ]! !
 
-!XmlNode methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:48:21'!
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:15:02'!
+serializerClass
+
+	^ XmlSerializer! !
+
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 05:56:13'!
 string
 
-	self children isEmpty
-		ifTrue: [ ^ nil ].
-	^ UnicodeString streamContents: [ :stream |
-		self children do: [ :each |
-			each string ifNotNil: [ :it |
-				stream
-					nextPutAll: it ] ] ]! !
+	^ self textContent! !
 
-!XmlNode methodsFor: 'initialization' stamp: 'ess 6/6/2025 10:15:38'!
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 11:41:00'!
+textContent
+
+	^ UnicodeString streamContents: [ :stream |
+		self textContentOn: stream ]! !
+
+!XmlNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 11:40:47'!
+textContentOn: aStream
+
+	self children do: [ :each |
+		each
+			textContentOn: aStream ]! !
+
+!XmlNode methodsFor: 'initialization' stamp: 'ess 7/10/2025 06:40:42'!
 initialize
 
 	super initialize.
+	document := WeakReference new.
 	parent := WeakReference new! !
 
-!XmlNode methodsFor: 'printing' stamp: 'ess 7/2/2025 09:49:24'!
+!XmlNode methodsFor: 'printing' stamp: 'ess 7/10/2025 07:15:11'!
 printOn: aStream
 
 	self serializeTo:
-		(XmlSerializer on: aStream)! !
+		(self serializerClass
+			on: aStream)! !
 
 !XmlNode methodsFor: 'serialization' stamp: 'ess 7/1/2025 13:03:18'!
 serializeTo: anXmlSerializer
@@ -2132,8 +2223,8 @@ isElement
 
 	^ false! !
 
-!XmlNode methodsFor: 'testing' stamp: 'ess 11/11/2024 12:08:49'!
-isTextNode
+!XmlNode methodsFor: 'testing' stamp: 'ess 7/10/2025 05:50:46'!
+isText
 
 	^ false! !
 
@@ -2142,10 +2233,17 @@ name
 
 	^ name! !
 
-!XmlAttribute methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:45:24'!
-string
+!XmlAttribute methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:59:15'!
+tagName
 
-	^ value! !
+	^ name local! !
+
+!XmlAttribute methodsFor: 'accessing' stamp: 'ess 7/10/2025 11:41:35'!
+textContentOn: aStream
+
+	value ifNotNil: [
+		aStream
+			nextPutAll: value ]! !
 
 !XmlAttribute methodsFor: 'accessing' stamp: 'ess 11/8/2024 15:19:45'!
 value
@@ -2160,13 +2258,13 @@ isNamespace
 		ifNotNil: [ name prefix = 'xmlns'  "Explicit namespace" ]
 		ifNil: [ name local = 'xmlns'  "Default namespace" ]! !
 
-!XmlAttribute methodsFor: 'as yet unclassified' stamp: 'ess 7/2/2025 09:11:57'!
-openNamespaceInContext: aContext
+!XmlAttribute methodsFor: 'as yet unclassified' stamp: 'ess 7/10/2025 06:04:32'!
+openNamespaceInContext: anXmlContext
 
 	| nsPrefix |
 	self isNamespace ifFalse: [ ^ self ].
 	nsPrefix := name prefix ifNotNil: [ name local ].
-	aContext 
+	anXmlContext 
 		openNamespacePrefix: nsPrefix
 		uri: value! !
 
@@ -2224,15 +2322,16 @@ name: aQualifiedName value: aString
 		setName: aQualifiedName
 		value: aString! !
 
-!XmlComment methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:17:50'!
-content
+!XmlComment methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:11:33'!
+data
 
-	^ content! !
+	^ data! !
 
-!XmlComment methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:45:33'!
-string
+!XmlComment methodsFor: 'accessing' stamp: 'ess 7/10/2025 11:41:55'!
+textContentOn: aStream
 
-	^ content! !
+	aStream
+		nextPutAll: data! !
 
 !XmlComment methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:37:03'!
 serializeTo: anXmlSerializer
@@ -2240,233 +2339,17 @@ serializeTo: anXmlSerializer
 	anXmlSerializer
 		comment: self! !
 
-!XmlComment methodsFor: 'private' stamp: 'ess 7/2/2025 12:10:42'!
-setContent: aString
+!XmlComment methodsFor: 'private' stamp: 'ess 7/10/2025 06:08:12'!
+setData: aString
 
-	content := aString.
+	data := aString.
 	^ self! !
 
-!XmlComment class methodsFor: 'instance creation' stamp: 'ess 7/2/2025 12:11:02'!
-content: aString
+!XmlComment class methodsFor: 'instance creation' stamp: 'ess 7/10/2025 06:08:52'!
+data: aString
 
 	^ self new
-		setContent: aString! !
-
-!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:35:32'!
-addChild: anXmlNode
-
-	| formerParent |
-	(anXmlNode isElement and: [ self element notNil ]) ifTrue: [
-		^ self error: 'Document can contain only one element child' ].
-	formerParent := anXmlNode parent.
-	formerParent ifNotNil: [
-		formerParent removeChild: anXmlNode ].
-	anXmlNode parent: self.
-	children addLast: anXmlNode! !
-
-!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:26:19'!
-appendText: aString
-
-	"Ignore text outside of elements."
-	^ self! !
-
-!XmlDocument methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:18:09'!
-children
-
-	^ children! !
-
-!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:34:53'!
-element
-
-	^ self elementChildren
-		at: 1
-		ifAbsent: [ nil ]! !
-
-!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:49:08'!
-prolog
-
-	^ prolog! !
-
-!XmlDocument methodsFor: 'initialization' stamp: 'ess 7/2/2025 12:18:51'!
-initialize
-
-	super initialize.
-	children := OrderedCollection new! !
-
-!XmlDocument methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:47:54'!
-serializeTo: anXmlSerializer
-
-	anXmlSerializer
-		document: self! !
-
-!XmlDocument methodsFor: 'private' stamp: 'ess 7/2/2025 12:19:15'!
-setProlog: anXmlProcessingInstruction
-
-	prolog := anXmlProcessingInstruction.
-	^ self! !
-
-!XmlDocument class methodsFor: 'instance creation' stamp: 'ess 7/2/2025 12:19:44'!
-prolog: anXmlProcessingInstruction
-
-	^ self new
-		setProlog: anXmlProcessingInstruction! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:01:28'!
-addAttribute: anXmlAttribute
-
-	attributes
-		add: anXmlAttribute! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:01:42'!
-addAttributes: aCollection
-
-	aCollection ifNil: [ ^ self ].
-	aCollection do: [ :each |
-		self addAttribute: each ]! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:03:26'!
-addChild: anXmlNode
-
-	| formerParent |
-	formerParent := anXmlNode parent.
-	formerParent ifNotNil: [
-		formerParent removeChild: anXmlNode ].
-	anXmlNode parent: self.
-	children addLast: anXmlNode! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:54:06'!
-addNamespace: anXmlNamespace
-
-	(namespaces includes: anXmlNamespace)
-		ifFalse: [
-			namespaces
-				add: anXmlNamespace ]! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:55:37'!
-addNamespaces: aCollection
-
-	aCollection ifNil: [ ^ self ].
-	aCollection do: [ :each |
-		self addNamespace: each ]! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:03:26'!
-appendText: aString
-
-	| lastChild |
-	lastChild := children notEmpty ifTrue: [ children last ].
-	(lastChild notNil and: [ lastChild isTextNode ]) ifTrue: [
-		"If there is a last child and it is a text node, append to it."
-		^ lastChild appendText: aString ].
-	"Otherwises create a new text child."
-	self addChild:
-		(XmlTextNode content: aString)! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 11/11/2024 11:49:20'!
-attributeAt: localName ifAbsent: exceptionBlock
-
-	^ attributes
-		detect: [ :each | each name local = localName ]
-		ifNone: exceptionBlock! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 11/11/2024 11:49:54'!
-attributeValueAt: localName ifAbsent: exceptionBlock
-
-	^ (self
-		attributeAt: localName
-		ifAbsent: exceptionBlock)
-			value! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:51:27'!
-attributes
-
-	^ attributes! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:51:33'!
-children
-
-	^ children! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:49:17'!
-name
-
-	^ name! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:51:39'!
-namespaces
-
-	^ namespaces! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:21:35'!
-removeChild: xmlNode
-
-	children := children
-		reject: [ :each | each == xmlNode ]! !
-
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:49:26'!
-tag
-
-	^ name local! !
-
-!XmlElement methodsFor: 'initialization' stamp: 'ess 7/2/2025 10:59:23'!
-initialize
-
-	super initialize.
-	children := OrderedCollection new.
-	attributes := OrderedCollection new.
-	namespaces := OrderedCollection new! !
-
-!XmlElement methodsFor: 'serialization' stamp: 'ess 7/1/2025 15:44:57'!
-serializeTo: anXmlSerializer
-
-	anXmlSerializer
-		element: self! !
-
-!XmlElement methodsFor: 'testing' stamp: 'ess 7/2/2025 11:19:05'!
-isElement
-
-	^ true! !
-
-!XmlElement methodsFor: 'private' stamp: 'ess 7/2/2025 11:02:01'!
-setName: aQualifiedName attributes: aCollection
-
-	name := aQualifiedName.
-	self addAttributes: aCollection.
-	^ self! !
-
-!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:54:15'!
-local: aString
-
-	^ self name:
-		(XmlQualifiedName local: aString)! !
-
-!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:54:39'!
-local: aString attributes: aCollection
-
-	^ self
-		name: (XmlQualifiedName local: aString)
-		attributes: aCollection! !
-
-!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:42:40'!
-local: localString uri: uriString
-
-	^ self name:
-		(XmlQualifiedName
-			local: localString
-			uri: uriString)! !
-
-!XmlElement class methodsFor: 'instance creation' stamp: 'ess 11/8/2024 18:04:03'!
-name: aQualifiedName
-
-	^ self
-		name: aQualifiedName
-		attributes: nil! !
-
-!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:42:28'!
-name: aQualifiedName attributes: aCollection
-
-	^ self new
-		setName: aQualifiedName
-		attributes: aCollection! !
+		setData: aString! !
 
 !XmlNamespace methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:20:46'!
 prefix
@@ -2532,6 +2415,301 @@ prefix: aStringOrNil uri: aUri
 		setPrefix: aStringOrNil
 		uri: aUri! !
 
+!XmlParentNode methodsFor: 'accessing' stamp: 'ess 7/11/2025 08:21:26'!
+appendChild: anXmlNode
+
+	^ self
+		insertChild: anXmlNode
+		before: nil! !
+
+!XmlParentNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:21:49'!
+childAt: anInteger
+
+	^ children
+		at: anInteger
+		ifAbsent: [ nil ]! !
+
+!XmlParentNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:21:53'!
+childCount
+
+	^ children size! !
+
+!XmlParentNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:18:13'!
+children
+
+	^ children! !
+
+!XmlParentNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:22:03'!
+firstChild
+
+	^ children notEmpty
+		ifTrue: [ children first ]! !
+
+!XmlParentNode methodsFor: 'accessing' stamp: 'ess 7/11/2025 08:21:13'!
+insertChild: anXmlNode before: siblingNode
+
+	| siblingIndex |
+	siblingIndex := siblingNode
+		ifNotNil: [ children indexOf: siblingNode ]
+		ifNil: [ 0 ].
+	anXmlNode parent: self.
+	siblingIndex = 0
+		ifTrue: [
+			children
+				addLast: anXmlNode ]
+		ifFalse: [
+			children := children
+				copyReplaceFrom: siblingIndex
+				to: siblingIndex - 1
+				with: { anXmlNode } ].
+	^ anXmlNode! !
+
+!XmlParentNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:22:08'!
+lastChild
+
+	^ children notEmpty
+		ifTrue: [ children last ]! !
+
+!XmlParentNode methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:21:31'!
+removeChild: anXmlNode
+
+	^ children
+		remove: anXmlNode
+		ifAbsent: [ nil ]! !
+
+!XmlParentNode methodsFor: 'initialization' stamp: 'ess 7/10/2025 06:14:30'!
+initialize
+
+	super initialize.
+	children := OrderedCollection new! !
+
+!XmlParentNode methodsFor: 'testing' stamp: 'ess 7/10/2025 06:30:07'!
+isEmpty
+
+	^ children
+		isEmpty! !
+
+!XmlParentNode methodsFor: 'testing' stamp: 'ess 7/10/2025 06:30:14'!
+notEmpty
+
+	^ children
+		notEmpty! !
+
+!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:43:56'!
+appendChild: anXmlNode
+
+	| result |
+	(anXmlNode isElement and: [ self element notNil ])
+		ifTrue: [
+			^ self error: 'Document can contain only one element child' ].
+	result := super
+		appendChild: anXmlNode.
+	result document: self.
+	^ result! !
+
+!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:34:53'!
+element
+
+	^ self elementChildren
+		at: 1
+		ifAbsent: [ nil ]! !
+
+!XmlDocument methodsFor: 'accessing' stamp: 'ess 7/2/2025 12:49:08'!
+prolog
+
+	^ prolog! !
+
+!XmlDocument methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:47:54'!
+serializeTo: anXmlSerializer
+
+	anXmlSerializer
+		document: self! !
+
+!XmlDocument methodsFor: 'private' stamp: 'ess 7/2/2025 12:19:15'!
+setProlog: anXmlProcessingInstruction
+
+	prolog := anXmlProcessingInstruction.
+	^ self! !
+
+!XmlDocument class methodsFor: 'instance creation' stamp: 'ess 7/2/2025 12:19:44'!
+prolog: anXmlProcessingInstruction
+
+	^ self new
+		setProlog: anXmlProcessingInstruction! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:07:18'!
+addAttribute: anXmlAttribute
+
+	^ attributes
+		add: anXmlAttribute! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 11:01:42'!
+addAttributes: aCollection
+
+	aCollection ifNil: [ ^ self ].
+	aCollection do: [ :each |
+		self addAttribute: each ]! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:54:06'!
+addNamespace: anXmlNamespace
+
+	(namespaces includes: anXmlNamespace)
+		ifFalse: [
+			namespaces
+				add: anXmlNamespace ]! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:55:37'!
+addNamespaces: aCollection
+
+	aCollection ifNil: [ ^ self ].
+	aCollection do: [ :each |
+		self addNamespace: each ]! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:14:27'!
+appendText: aString
+
+	| lastChild |
+	lastChild := self lastChild.
+	(lastChild notNil and: [ lastChild isText ]) ifTrue: [
+		"If there is a last child and it is a text node, append to it."
+		^ lastChild
+			appendText: aString ].
+	"Otherwises create a new text child."
+	self appendChild:
+		(self textClass
+			content: aString)! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:00:16'!
+attributeAt: attributeName
+
+	^ self
+		attributeAt: attributeName
+		ifAbsent: [ nil ]! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 06:59:44'!
+attributeAt: localName ifAbsent: exceptionBlock
+
+	^ attributes
+		detect: [ :each | each tagName = localName ]
+		ifNone: exceptionBlock! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:00:48'!
+attributeValueAt: attributeName
+	"N.B., `nil` is a perfectly valid attribute value.  Prefer #attributeValueAt:ifAbsent:"
+
+	^ (self attributeAt: attributeName)
+		ifNotNil: [ :it | it value ]! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 11/11/2024 11:49:54'!
+attributeValueAt: localName ifAbsent: exceptionBlock
+
+	^ (self
+		attributeAt: localName
+		ifAbsent: exceptionBlock)
+			value! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:51:27'!
+attributes
+
+	^ attributes! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:01:27'!
+attributesDo: aUnaryBlock
+
+	attributes
+		do: aUnaryBlock! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:01:52'!
+hasAttribute: aString
+
+	^ (self attributeAt: aString)
+		notNil! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:49:17'!
+name
+
+	^ name! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/2/2025 10:51:39'!
+namespaces
+
+	^ namespaces! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:03:01'!
+tagName
+
+	^ name local! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:14:05'!
+textClass
+
+	^ XmlText! !
+
+!XmlElement methodsFor: 'initialization' stamp: 'ess 7/10/2025 11:39:33'!
+defaultAttributes
+
+	^ OrderedCollection new! !
+
+!XmlElement methodsFor: 'initialization' stamp: 'ess 7/10/2025 11:39:56'!
+initialize
+
+	super initialize.
+	attributes := self defaultAttributes.
+	namespaces := OrderedCollection new! !
+
+!XmlElement methodsFor: 'serialization' stamp: 'ess 7/1/2025 15:44:57'!
+serializeTo: anXmlSerializer
+
+	anXmlSerializer
+		element: self! !
+
+!XmlElement methodsFor: 'testing' stamp: 'ess 7/2/2025 11:19:05'!
+isElement
+
+	^ true! !
+
+!XmlElement methodsFor: 'private' stamp: 'ess 7/2/2025 11:02:01'!
+setName: aQualifiedName attributes: aCollection
+
+	name := aQualifiedName.
+	self addAttributes: aCollection.
+	^ self! !
+
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:54:15'!
+local: aString
+
+	^ self name:
+		(XmlQualifiedName local: aString)! !
+
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:54:39'!
+local: aString attributes: aCollection
+
+	^ self
+		name: (XmlQualifiedName local: aString)
+		attributes: aCollection! !
+
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:42:40'!
+local: localString uri: uriString
+
+	^ self name:
+		(XmlQualifiedName
+			local: localString
+			uri: uriString)! !
+
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 11/8/2024 18:04:03'!
+name: aQualifiedName
+
+	^ self
+		name: aQualifiedName
+		attributes: nil! !
+
+!XmlElement class methodsFor: 'instance creation' stamp: 'ess 7/1/2025 15:42:28'!
+name: aQualifiedName attributes: aCollection
+
+	^ self new
+		setName: aQualifiedName
+		attributes: aCollection! !
+
 !XmlProcessingInstruction methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:22:48'!
 content
 
@@ -2567,39 +2745,46 @@ target: targetName content: aString
 		setTarget: targetName
 		content: aString! !
 
-!XmlTextNode methodsFor: 'accessing' stamp: 'ess 11/11/2024 12:06:49'!
+!XmlText methodsFor: 'accessing' stamp: 'ess 11/11/2024 12:06:49'!
 appendText: textContent
 
 	content := content, textContent! !
 
-!XmlTextNode methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:23:32'!
+!XmlText methodsFor: 'accessing' stamp: 'ess 6/6/2025 10:23:32'!
 content
 
 	^ content! !
 
-!XmlTextNode methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:46:08'!
-string
+!XmlText methodsFor: 'accessing' stamp: 'ess 7/10/2025 11:42:24'!
+textContentOn: aStream
 
-	^ content! !
+	aStream
+		nextPutAll: content! !
 
-!XmlTextNode methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:48:17'!
+!XmlText methodsFor: 'initialization' stamp: 'ess 7/10/2025 06:47:13'!
+initialize
+
+	super initialize.
+	content := ''! !
+
+!XmlText methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:48:17'!
 serializeTo: anXmlSerializer
 
 	anXmlSerializer
 		text: self! !
 
-!XmlTextNode methodsFor: 'testing' stamp: 'ess 11/11/2024 12:08:56'!
-isTextNode
+!XmlText methodsFor: 'testing' stamp: 'ess 7/10/2025 05:50:46'!
+isText
 
 	^ true! !
 
-!XmlTextNode methodsFor: 'private' stamp: 'ess 11/7/2024 15:19:55'!
+!XmlText methodsFor: 'private' stamp: 'ess 11/7/2024 15:19:55'!
 setContent: aText
 
 	content := aText.
 	^ self! !
 
-!XmlTextNode class methodsFor: 'instance creation' stamp: 'ess 6/6/2025 10:23:11'!
+!XmlText class methodsFor: 'instance creation' stamp: 'ess 6/6/2025 10:23:11'!
 content: aString
 
 	^ self new
@@ -2725,17 +2910,23 @@ pushContext: namespacesCollection
 	contexts
 		push: namespacesCollection! !
 
-!XmlSerializer methodsFor: 'initialization' stamp: 'ess 7/1/2025 07:15:15'!
+!XmlSerializer methodsFor: 'initialization' stamp: 'ess 7/10/2025 07:29:12'!
+defaultNamespaces
+
+	^ Xml reservedNamespaces! !
+
+!XmlSerializer methodsFor: 'initialization' stamp: 'ess 7/10/2025 07:29:37'!
 initialize
 
 	super initialize.
-	contexts := XmlContextStack new! !
+	contexts := XmlContextStack
+		namespaces: self defaultNamespaces! !
 
-!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:46:53'!
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/10/2025 07:26:18'!
 attribute: anXmlAttribute
 	"Output a single attribute."
 
-	stream nextPut: Character space.
+	stream nextPut: `Character space`.
 	self
 		qualifiedName: anXmlAttribute name;
 		attributeValue: anXmlAttribute value! !
@@ -2757,20 +2948,20 @@ attributes: aCollection
 	aCollection asSortedCollection do: [ :each |
 		each serializeTo: self ]! !
 
-!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:37:51'!
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/10/2025 07:23:03'!
 comment: anXmlComment
 
 	stream
 		nextPutAll: '<!!--';
-		nextPutAll: anXmlComment content;
+		nextPutAll: anXmlComment data;
 		nextPutAll: '-->'! !
 
-!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:50:39'!
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/10/2025 07:27:05'!
 document: anXmlDocument
 
 	anXmlDocument prolog ifNotNil: [ :it |
 		it serializeTo: self.
-		stream nextPut: Character lf ].
+		stream nextPut: `Character lf` ].
 	anXmlDocument children do: [ :each |
 		each serializeTo: self ]! !
 
@@ -2813,26 +3004,26 @@ namespaces: aCollection
 	aCollection asSortedCollection do: [ :each |
 		each serializeTo: self ]! !
 
-!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 12:46:34'!
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/10/2025 07:27:30'!
 processingInstruction: anXmlProcessingInstruction
 
 	stream
 		nextPutAll: '<?';
 		nextPutAll: anXmlProcessingInstruction target;
-		nextPut: Character space;
+		nextPut: `Character space`;
 		nextPutAll: anXmlProcessingInstruction content;
 		nextPutAll: '?>'! !
 
-!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/1/2025 12:40:52'!
-qualifiedName: anXmlQualifiedName
+!XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/10/2025 07:22:23'!
+qualifiedName: aQualifiedName
 
-	(self namespacePrefix: anXmlQualifiedName uri)
+	(self namespacePrefix: aQualifiedName uri)
 		ifNotNil: [ :it |
 			stream
 				nextPutAll: it;
 				nextPut: $: ].
 	stream
-		nextPutAll: anXmlQualifiedName local! !
+		nextPutAll: aQualifiedName local! !
 
 !XmlSerializer methodsFor: 'serialization' stamp: 'ess 7/2/2025 09:39:54'!
 startTag: anXmlElement
