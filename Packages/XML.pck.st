@@ -1,6 +1,6 @@
-'From Cuis7.5 [latest update: #7342] on 11 July 2025 at 10:12:27 am'!
+'From Cuis7.5 [latest update: #7345] on 13 July 2025 at 12:53:48 pm'!
 'Description '!
-!provides: 'XML' 1 5!
+!provides: 'XML' 1 6!
 !requires: 'Cuis-Base' 75 7262 nil!
 !requires: 'Unicode' 1 7 nil!
 SystemOrganization addCategory: #XML!
@@ -2565,19 +2565,12 @@ addNamespaces: aCollection
 	aCollection do: [ :each |
 		self addNamespace: each ]! !
 
-!XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:14:27'!
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/13/2025 12:47:47'!
 appendText: aString
 
-	| lastChild |
-	lastChild := self lastChild.
-	(lastChild notNil and: [ lastChild isText ]) ifTrue: [
-		"If there is a last child and it is a text node, append to it."
-		^ lastChild
-			appendText: aString ].
-	"Otherwises create a new text child."
-	self appendChild:
-		(self textClass
-			content: aString)! !
+	^ self
+		insertText: aString
+		before: nil! !
 
 !XmlElement methodsFor: 'accessing' stamp: 'ess 7/10/2025 07:00:16'!
 attributeAt: attributeName
@@ -2624,6 +2617,22 @@ hasAttribute: aString
 
 	^ (self attributeAt: aString)
 		notNil! !
+
+!XmlElement methodsFor: 'accessing' stamp: 'ess 7/13/2025 12:51:16'!
+insertText: aString before: siblingNode
+
+	| prevChild |
+	prevChild := siblingNode
+		ifNotNil: [ children before: siblingNode ]
+		ifNil: [ self lastChild ].
+	(prevChild notNil and: [ prevChild isText ]) ifTrue: [
+		^ prevChild
+			appendText: aString ].
+	^ self
+		insertChild:
+			(self textClass
+				content: aString)
+		before: siblingNode! !
 
 !XmlElement methodsFor: 'accessing' stamp: 'ess 7/1/2025 08:49:17'!
 name
